@@ -1,9 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse, NextRequest } from "next/server";
-
-const supabaseUrl = "https://yeuedbguizoulpjgzdru.supabase.co";
-const supabaseKey = process.env.SUPABASE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from "@/lib/supabase";
 
 export async function GET(request: NextRequest) {
   const location = request.nextUrl.searchParams.get("location");
@@ -12,6 +8,7 @@ export async function GET(request: NextRequest) {
   let query = supabase
     .from("TotalPopBySex")
     .select("*")
+    .eq("Variant", "Constant mortality")
     .order("Time", { ascending: true });
 
   if (location) {

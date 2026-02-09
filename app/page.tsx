@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { SexBarChart } from "@/components/charts/SexBarChart";
 
 interface PopulationRecord {
   ID: number;
@@ -123,6 +124,8 @@ export default function Home() {
           </p>
         )}
       </div>
+
+      <SexBarChart data={data} />
     </div>
   );
 }
