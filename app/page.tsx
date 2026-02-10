@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
 import { MedianAgeLineChart } from "@/components/charts/MedianAgeLineChart";
+import { DependencyPieChart } from "@/components/charts/DependencyPieChart";
 
 export default function Home() {
   const [location, setLocation] = useState("");
@@ -47,6 +48,9 @@ export default function Home() {
 
           <h3>Median Age</h3>
           <MedianAgeLineChart location={searchedLocation} />
+
+          <h3>Dependency Ratio</h3>
+          <DependencyPieChart location={searchedLocation} />
         </>
       ) : (
         <p className="text-foreground/60">Enter a country name and press Search to view statistics.</p>
