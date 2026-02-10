@@ -64,3 +64,7 @@ Demographic health is also tied to how well a country utilizes its human capital
   demographic trends. [oecd](https://www.oecd.org/en/publications/health-at-a-glance-2025_8f9e3f98-en.html)
 - **Urbanization Rate:** Rapid, unplanned urbanization can stress resources, while balanced growth supports economic
   health. [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)
+
+
+
+**DATA SETS:** https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format

@@ -10,14 +10,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-
-interface PopulationRecord {
-  ID: number;
-  Time: number;
-  PopMale: number;
-  PopFemale: number;
-  PopTotal: number;
-}
+import { PopulationRecord } from "@/types/population";
 
 interface Props {
   data: PopulationRecord[];

@@ -2,17 +2,8 @@
 
 import { useCallback, useState } from "react";
 import { SexBarChart } from "@/components/charts/SexBarChart";
-
-interface PopulationRecord {
-  ID: number;
-  Location: string;
-  Time: number;
-  Variant: string;
-  PopMale: number;
-  PopFemale: number;
-  PopTotal: number;
-  PopDensity: number;
-}
+import { PopulationRecord } from "@/types/population";
+import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
 
 export default function Home() {
   const [data, setData] = useState<PopulationRecord[]>([]);
@@ -32,7 +23,7 @@ export default function Home() {
       );
     if (year) params.set("time", year);
 
-    fetch(`/api/countries?${params.toString()}`)
+    fetch(`/api/population?${params.toString()}`)
       .then((res) => res.json())
       .then((json) => {
         if (json.error) {
@@ -80,50 +71,11 @@ export default function Home() {
       {loading && <p className="mb-4">Loading...</p>}
       {data.length === 0 && <p className="mb-4"> No Results</p>}
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm border-collapse">
-          <thead>
-            <tr className="border-b border-foreground/20 text-left">
-              <th className="py-2 pr-4">Location</th>
-              <th className="py-2 pr-4">Variant</th>
-              <th className="py-2 pr-4">Year</th>
-              <th className="py-2 pr-4 text-right">Male (thousands)</th>
-              <th className="py-2 pr-4 text-right">Female (thousands)</th>
-              <th className="py-2 pr-4 text-right">Total (thousands)</th>
-              <th className="py-2 text-right">Density</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.slice(0, 100).map((row) => (
-              <tr
-                key={row.ID}
-                className="border-b border-foreground/10 hover:bg-foreground/5"
-              >
-                <td className="py-1.5 pr-4">{row.Location}</td>
-                <td className="py-1.5 pr-4">{row.Variant}</td>
-                <td className="py-1.5 pr-4">{row.Time}</td>
-                <td className="py-1.5 pr-4 text-right">
-                  {row.PopMale?.toLocaleString()}
-                </td>
-                <td className="py-1.5 pr-4 text-right">
-                  {row.PopFemale?.toLocaleString()}
-                </td>
-                <td className="py-1.5 pr-4 text-right">
-                  {row.PopTotal?.toLocaleString()}
-                </td>
-                <td className="py-1.5 text-right">
-                  {row.PopDensity?.toFixed(1)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {data.length > 100 && (
-          <p className="mt-4 text-sm text-foreground/50">
-            Showing first 100 of {data.length} records
-          </p>
-        )}
-      </div>
+      <div className="overflow-x-auto"></div>
+
+      <h2>Population Structure Analysis</h2>
+      <h3>Population Pyramid</h3>
+      <PopulationPyramid location="France" />
 
       <SexBarChart data={data} />
     </div>
