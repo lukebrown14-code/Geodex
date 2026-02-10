@@ -1,83 +1,56 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { SexBarChart } from "@/components/charts/SexBarChart";
-import { PopulationRecord } from "@/types/population";
+import { useState } from "react";
 import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
+import { MedianAgeLineChart } from "@/components/charts/MedianAgeLineChart";
 
 export default function Home() {
-  const [data, setData] = useState<PopulationRecord[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
   const [location, setLocation] = useState("");
-  const [year, setYear] = useState("");
+  const [searchedLocation, setSearchedLocation] = useState("");
 
-  const handleSearch = useCallback(() => {
-    setLoading(true);
-    const params = new URLSearchParams();
-    if (location)
-      params.set(
-        "location",
-        location.replace(/^./, location[0].toUpperCase()).trim(),
-      );
-    if (year) params.set("time", year);
-
-    fetch(`/api/population?${params.toString()}`)
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.error) {
-          setError(json.error);
-        } else {
-          setError(null);
-          setData(json);
-        }
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [location, year]);
+  const handleSearch = () => {
+    const trimmed = location.trim();
+    if (!trimmed) return;
+    setSearchedLocation(
+      trimmed.replace(/^./, trimmed[0].toUpperCase()),
+    );
+  };
 
   return (
     <div className="min-h-screen p-8">
       <h1 className="text-2xl font-bold mb-6">
-        Population by Sex — {data.length} records
+        Country Statistics Dashboard
       </h1>
 
       <div className="flex gap-4 mb-6">
         <input
           type="text"
-          placeholder="Search by location..."
+          placeholder="Search by country..."
           value={location}
           onChange={(e) => setLocation(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           className="px-3 py-2 border border-foreground/20 rounded-md bg-background text-foreground w-64"
-        />
-        <input
-          type="text"
-          placeholder="Search by year..."
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          className="px-3 py-2 border border-foreground/20 rounded-md bg-background text-foreground w-40"
         />
         <button
           onClick={handleSearch}
-          disabled={loading}
-          className="px-4 py-2 bg-foreground text-background rounded-md hover:opacity-80 disabled:opacity-50"
+          className="px-4 py-2 bg-foreground text-background rounded-md hover:opacity-80"
         >
-          {loading ? "Searching..." : "Search"}
+          Search
         </button>
       </div>
 
-      {error && <p className="text-red-500 mb-4">Error: {error}</p>}
-      {loading && <p className="mb-4">Loading...</p>}
-      {data.length === 0 && <p className="mb-4"> No Results</p>}
+      {searchedLocation ? (
+        <>
+          <h2>Population Structure Analysis — {searchedLocation}</h2>
+          <h3>Population Pyramid</h3>
+          <PopulationPyramid location={searchedLocation} />
 
-      <div className="overflow-x-auto"></div>
-
-      <h2>Population Structure Analysis</h2>
-      <h3>Population Pyramid</h3>
-      <PopulationPyramid location="France" />
-
-      <SexBarChart data={data} />
+          <h3>Median Age</h3>
+          <MedianAgeLineChart location={searchedLocation} />
+        </>
+      ) : (
+        <p className="text-foreground/60">Enter a country name and press Search to view statistics.</p>
+      )}
     </div>
   );
 }

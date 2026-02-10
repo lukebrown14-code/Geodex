@@ -3,8 +3,20 @@ export interface PopulationRecord {
   Location: string;
   Time: number;
   Variant: string;
+  AgeGrp: string;
   PopMale: number;
   PopFemale: number;
   PopTotal: number;
   PopDensity: number;
+}
+
+export interface PyramidData {
+  age: string;
+  male: number;
+  female: number;
+}
+
+export interface MedianData {
+  Time: number;
+  MedianAgePop: number;
 }

@@ -10,53 +10,28 @@ import {
   YAxis,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useEffect, useState } from "react";
-
-interface PopulationRecord {
-  AgeGrp: string;
-  PopMale: number;
-  PopFemale: number;
-}
-
-interface PyramidData {
-  age: string;
-  male: number;
-  female: number;
-}
+import { useMemo } from "react";
+import { useApiData } from "@/hooks/useApiData";
+import { PopulationRecord, PyramidData } from "@/types/population";
 
 export function PopulationPyramid({ location }: { location: string }) {
-  const [data, setData] = useState<PyramidData[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const params = useMemo(
+    () => (location ? { location } : undefined),
+    [location],
+  );
+  const { data: raw, loading, error } = useApiData<PopulationRecord>("/api/population", params);
 
-  useEffect(() => {
-    setLoading(true);
-    const params = new URLSearchParams();
-
-    if (location) {
-      params.set("location", location);
-    }
-
-    fetch(`/api/population?${params.toString()}`)
-      .then((res) => res.json())
-      .then((json) => {
-        if (json.error) {
-          setError(json.error);
-        } else {
-          setError(null);
-          const transformed: PyramidData[] = json
-            .map((record: PopulationRecord) => ({
-              age: record.AgeGrp,
-              male: -Math.abs(record.PopMale),
-              female: Math.abs(record.PopFemale),
-            }))
-            .reverse();
-          setData(transformed);
-        }
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, [location]);
+  const data: PyramidData[] = useMemo(
+    () =>
+      raw
+        .map((record) => ({
+          age: record.AgeGrp,
+          male: -Math.abs(record.PopMale),
+          female: Math.abs(record.PopFemale),
+        }))
+        .reverse(),
+    [raw],
+  );
 
   return (
     <Card className="w-full max-w-4xl">

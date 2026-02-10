@@ -4,8 +4,10 @@ import { supabaseClient } from "@/lib/supabase";
 export async function GET(request: NextRequest) {
   const location = request.nextUrl.searchParams.get("location")
 
-  let query = supabaseClient.from("Pop5YearGroup").select("*").eq("Time", "2026")
-
+  let query = supabaseClient
+  .from("DemographicIndicators")
+  .select("MedianAgePop, Time")
+  
   if (location) {
     query = query.eq("Location", location)
   }
@@ -17,4 +19,5 @@ export async function GET(request: NextRequest) {
   }
 
   return NextResponse.json(data)
+
 }
