@@ -14,11 +14,11 @@ import { MedianData } from "@/types/population"
 const chartConfig = {
   positive: {
     label: "Net Immigration",
-    color: "var(--chart-1)",
+    color: "var(--chart-2)",
   },
   negative: {
     label: "Net Emigration",
-    color: "var(--chart-2)",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig
 

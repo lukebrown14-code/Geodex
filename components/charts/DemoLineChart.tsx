@@ -35,10 +35,19 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
     dataKey = "LEx"
   }
 
+  const colorMap: Record<string, { configKey: string; color: string }> = {
+    median:       { configKey: "medianAge",    color: "var(--chart-1)" },
+    TFR:          { configKey: "tfr",          color: "var(--chart-2)" },
+    InfantDeaths: { configKey: "infantDeaths", color: "var(--chart-3)" },
+    lifeExpect:   { configKey: "lifeExpect",   color: "var(--chart-4)" },
+  }
+
+  const { configKey, color } = colorMap[type] ?? colorMap.median
+
   const chartConfig = {
-    medianAge: {
+    [configKey]: {
       label: graphTitle,
-      color: "var(--chart-1)",
+      color,
     },
   } satisfies ChartConfig
 
@@ -49,13 +58,13 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
       location={location}
     >
       {(data) => (
-        <LineContent data={data} dataKey={dataKey!} chartConfig={chartConfig} />
+        <LineContent data={data} dataKey={dataKey!} chartConfig={chartConfig} configKey={configKey} />
       )}
     </ChartCard>
   )
 }
 
-function LineContent({ data, dataKey, chartConfig }: { data: MedianData[], dataKey: string, chartConfig: ChartConfig }) {
+function LineContent({ data, dataKey, chartConfig, configKey }: { data: MedianData[], dataKey: string, chartConfig: ChartConfig, configKey: string }) {
   const parsed = useMemo(
     () => data
       .filter((d) => Number(d.Time) >= 2010 && Number(d.Time) <= 2040)
@@ -94,9 +103,9 @@ function LineContent({ data, dataKey, chartConfig }: { data: MedianData[], dataK
         <Line
           dataKey={dataKey}
           type="natural"
-          stroke="var(--color-medianAge)"
+          stroke={`var(--color-${configKey})`}
           strokeWidth={2}
-          dot={{ fill: "var(--color-medianAge)" }}
+          dot={{ fill: `var(--color-${configKey})` }}
           activeDot={{ r: 6 }}
         />
       </LineChart>

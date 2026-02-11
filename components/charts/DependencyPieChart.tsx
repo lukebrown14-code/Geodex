@@ -18,7 +18,7 @@ const chartConfig = {
   },
   nonWorking: {
     label: "Dependents (0–15, 60+)",
-    color: "var(--chart-2)",
+    color: "var(--chart-4)",
   },
 } satisfies ChartConfig
 

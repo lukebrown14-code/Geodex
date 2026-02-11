@@ -80,13 +80,13 @@ function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
 
             <Bar
               dataKey="male"
-              fill="#3b82f6"
+              fill="var(--chart-1)"
               radius={[4, 0, 0, 4]}
               name="Male"
             />
             <Bar
               dataKey="female"
-              fill="#ec4899"
+              fill="var(--chart-3)"
               radius={[0, 4, 4, 0]}
               name="Female"
             />
@@ -96,11 +96,11 @@ function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
 
       <div className="mt-4 flex justify-center gap-8 text-sm">
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded-full bg-blue-500" />
+          <div className="h-3 w-3 rounded-full" style={{ background: "var(--chart-1)" }} />
           <span>Male</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="h-3 w-3 rounded-full bg-pink-500" />
+          <div className="h-3 w-3 rounded-full" style={{ background: "var(--chart-3)" }} />
           <span>Female</span>
         </div>
       </div>
