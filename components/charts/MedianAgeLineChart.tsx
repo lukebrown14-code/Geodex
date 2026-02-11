@@ -38,6 +38,11 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
     dataKey = "TFR"
   }
 
+  if (type === "InfantDeaths") {
+    graphTitle = "Infant Mortality"
+    dataKey = "InfantDeaths"
+  }
+
   const chartConfig = {
     medianAge: {
       label: graphTitle,

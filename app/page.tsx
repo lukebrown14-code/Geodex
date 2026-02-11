@@ -57,6 +57,9 @@ export default function Home() {
           <h3>Total Fertility Rate (TFR)</h3>
           <DemoLineChart location={searchedLocation} type="TFR" />
 
+          <h3>Infant Deaths</h3>
+          <DemoLineChart location={searchedLocation} type="InfantDeaths" />
+
           <h3> Net Migration </h3>
           <DemoBarChart location={searchedLocation} />
         </>
