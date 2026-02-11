@@ -61,6 +61,7 @@ export default function Home() {
           <DemoLineChart location={searchedLocation} type="TFR" />
           <DemoLineChart location={searchedLocation} type="InfantDeaths" />
           <DemoBarChart location={searchedLocation} />
+          <DemoLineChart location={searchedLocation} type="lifeExpect" />
         </div>
       ) : (
         <p className="text-foreground/60">Enter a country name and press Search to view statistics.</p>

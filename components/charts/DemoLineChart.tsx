@@ -29,6 +29,11 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
     dataKey = "InfantDeaths"
   }
 
+  if (type === "lifeExpect") {
+    graphTitle = "Life Expectancy"
+    dataKey = "LEx"
+  }
+
   const chartConfig = {
     medianAge: {
       label: graphTitle,
@@ -39,7 +44,7 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
   return (
     <ChartCard<MedianData>
       endpoint="/api/demographics"
-      title={`${graphTitle} (2000 - 2030)`}
+      title={`${graphTitle} (2000 - 2050)`}
       location={location}
     >
       {(data) => (

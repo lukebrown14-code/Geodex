@@ -22,4 +22,5 @@ export interface MedianData {
   TFR: number;
   NetMigrations: number;
   InfantDeaths: number;
+  LEx: number;
 }

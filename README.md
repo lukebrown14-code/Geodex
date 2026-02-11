@@ -14,7 +14,7 @@ generations. [populationpyramids](https://populationpyramids.org/blog/population
   [populationpyramids](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)
 - **Net Migration Rate:** The difference between immigrants and emigrants, which can offset low birth rates or drain
   human capital. [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)
-- **Maternal and Infant Mortality:** Key indicators of health system quality and the overall "starting health" of the
+- **Infant Mortality:** Key indicators of health system quality and the overall "starting health" of the
   newest generation.
   [influenceflow](https://influenceflow.io/resources/measuring-community-health-metrics-and-analytics-a-complete-2026-guide/)
 
