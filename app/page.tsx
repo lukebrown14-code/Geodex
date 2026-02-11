@@ -28,19 +28,24 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-6">
-          {/* Brand */}
-          <div className="shrink-0">
-            <h1 className="text-sm font-semibold tracking-tight text-foreground leading-none">
-              Country Statistics
-            </h1>
-            <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
-              Demographic data explorer
-            </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+          {/* Top row on mobile: brand + toggle */}
+          <div className="flex items-center justify-between sm:justify-start shrink-0">
+            <div>
+              <h1 className="text-sm font-semibold tracking-tight text-foreground leading-none">
+                Country Statistics
+              </h1>
+              <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
+                Demographic data explorer
+              </p>
+            </div>
+            <div className="sm:hidden">
+              <ThemeToggle />
+            </div>
           </div>
 
-          {/* Search — centered */}
-          <div className="relative flex-1 max-w-md mx-auto">
+          {/* Search — full width on mobile, centered on desktop */}
+          <div className="relative flex-1 max-w-md sm:mx-auto">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/60" />
             <input
               type="text"
@@ -58,15 +63,15 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Spacer + Toggle */}
-          <div className="ml-auto">
+          {/* Toggle — desktop only (mobile is in brand row) */}
+          <div className="hidden sm:block ml-auto">
             <ThemeToggle />
           </div>
         </div>
       </header>
 
       {/* Content area */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {searchedLocation ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Demographic Health Score */}
@@ -76,7 +81,7 @@ export default function Home() {
 
             {/* Section: Population Structure */}
             <div className="col-span-full mt-2">
-              <h2 className="text-xl font-semibold border-l-4 border-chart-1 pl-3">
+              <h2 className="text-lg sm:text-xl font-semibold border-l-4 border-chart-1 pl-3">
                 Population Structure Analysis
               </h2>
               <p className="text-muted-foreground text-sm mt-1 pl-3 ml-1">
@@ -103,7 +108,7 @@ export default function Home() {
 
             {/* Section: Vital Reproduction Metrics */}
             <div className="col-span-full mt-4">
-              <h2 className="text-xl font-semibold border-l-4 border-chart-2 pl-3">
+              <h2 className="text-lg sm:text-xl font-semibold border-l-4 border-chart-2 pl-3">
                 Vital Reproduction Metrics
               </h2>
               <p className="text-muted-foreground text-sm mt-1 pl-3 ml-1">

@@ -48,14 +48,18 @@ function BarContent({ raw }: { raw: PopulationRecord[] }) {
   return (
     <>
       <ChartContainer config={chartConfig}>
-        <BarChart data={data} margin={{ left: 12, right: 12 }}>
+        <BarChart data={data} margin={{ left: 4, right: 4 }}>
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey="age"
             tickLine={false}
             axisLine={false}
             tickMargin={8}
-            fontSize={11}
+            fontSize={10}
+            interval={0}
+            angle={-45}
+            textAnchor="end"
+            height={50}
           />
           <YAxis
             tickLine={false}

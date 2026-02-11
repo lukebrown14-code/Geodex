@@ -41,12 +41,12 @@ function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
 
   return (
     <>
-      <div className="h-96 w-full">
+      <div className="h-72 sm:h-96 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 10, right: 40, left: 40, bottom: 10 }}
+            margin={{ top: 10, right: 16, left: 8, bottom: 10 }}
             stackOffset="sign"
           >
             <CartesianGrid strokeDasharray="3 3" horizontal={false} />
@@ -56,7 +56,7 @@ function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
               tickFormatter={(value) =>
                 Math.abs(value).toLocaleString()
               }
-
+              fontSize={11}
               domain={([dataMin, dataMax]: [number, number]) => {
                 const padding = (dataMax - dataMin) * 0.1 || 1
                 return [Math.floor(dataMin - padding), Math.ceil(dataMax + padding)]
@@ -68,8 +68,8 @@ function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
               dataKey="age"
               axisLine={false}
               tickLine={false}
-              width={60}
-              fontSize={13}
+              width={40}
+              fontSize={11}
             />
 
             <Tooltip
