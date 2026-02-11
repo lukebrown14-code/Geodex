@@ -1,5 +1,6 @@
 "use client"
 
+import { useMemo } from "react"
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,
@@ -44,43 +45,61 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
   return (
     <ChartCard<MedianData>
       endpoint="/api/demographics"
-      title={`${graphTitle} (2000 - 2050)`}
+      title={`${graphTitle} (2010 - 2040)`}
       location={location}
     >
       {(data) => (
-        <ChartContainer config={chartConfig}>
-          <LineChart
-            accessibilityLayer
-            data={data}
-            margin={{ left: 12, right: 12 }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="Time"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Line
-              dataKey={dataKey}
-              type="natural"
-              stroke="var(--color-medianAge)"
-              strokeWidth={2}
-              dot={{ fill: "var(--color-medianAge)" }}
-              activeDot={{ r: 6 }}
-            />
-          </LineChart>
-        </ChartContainer>
+        <LineContent data={data} dataKey={dataKey!} chartConfig={chartConfig} />
       )}
     </ChartCard>
+  )
+}
+
+function LineContent({ data, dataKey, chartConfig }: { data: MedianData[], dataKey: string, chartConfig: ChartConfig }) {
+  const parsed = useMemo(
+    () => data
+      .filter((d) => Number(d.Time) >= 2010 && Number(d.Time) <= 2040)
+      .map((d) => ({ ...d, [dataKey]: Number(d[dataKey as keyof MedianData]) })),
+    [data, dataKey],
+  )
+
+  return (
+    <ChartContainer config={chartConfig}>
+      <LineChart
+        accessibilityLayer
+        data={parsed}
+        margin={{ left: 12, right: 12 }}
+      >
+        <CartesianGrid vertical={false} />
+        <XAxis
+          dataKey="Time"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+        />
+        <YAxis
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          domain={([dataMin, dataMax]: [number, number]) => {
+            const padding = (dataMax - dataMin) * 0.1 || 1
+            return [Math.floor(dataMin - padding), Math.ceil(dataMax + padding)]
+          }}
+          allowDecimals={false}
+        />
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel />}
+        />
+        <Line
+          dataKey={dataKey}
+          type="natural"
+          stroke="var(--color-medianAge)"
+          strokeWidth={2}
+          dot={{ fill: "var(--color-medianAge)" }}
+          activeDot={{ r: 6 }}
+        />
+      </LineChart>
+    </ChartContainer>
   )
 }

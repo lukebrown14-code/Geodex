@@ -34,7 +34,7 @@ export function DemoBarChart({ location }: { location: string }) {
   return (
     <ChartCard<MedianData>
       endpoint="/api/demographics"
-      title={`Net Migration – ${location} (2000–2030)`}
+      title={`Net Migration – ${location} (2010–2040)`}
       location={location}
     >
       {(raw) => <BarContent raw={raw} />}
@@ -44,7 +44,9 @@ export function DemoBarChart({ location }: { location: string }) {
 
 function BarContent({ raw }: { raw: MedianData[] }) {
   const data = useMemo(
-    () => raw.map((d) => ({ ...d, NetMigrationsLog: symLog(d.NetMigrations) })),
+    () => raw
+      .filter((d) => Number(d.Time) >= 2010 && Number(d.Time) <= 2040)
+      .map((d) => ({ ...d, NetMigrationsLog: symLog(d.NetMigrations) })),
     [raw],
   )
 
