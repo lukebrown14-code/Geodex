@@ -18,13 +18,6 @@ import { useMemo } from "react"
 import { useApiData } from "@/hooks/useApiData"
 import { MedianData } from "@/types/population"
 
-const chartConfig = {
-  medianAge: {
-    label: "Median Age",
-    color: "var(--chart-1)",
-  },
-} satisfies ChartConfig
-
 export function DemoLineChart({ location, type }: { location: string, type: string }) {
   const params = useMemo(
     () => (location ? { location } : undefined),
@@ -44,6 +37,13 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
     graphTitle = "Total Fertility Rate (TFR)"
     dataKey = "TFR"
   }
+
+  const chartConfig = {
+    medianAge: {
+      label: graphTitle,
+      color: "var(--chart-1)",
+    },
+  } satisfies ChartConfig
 
   return (
     <Card>

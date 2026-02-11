@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
 import { DependencyPieChart } from "@/components/charts/DependencyPieChart";
 import { DemoLineChart } from "@/components/charts/MedianAgeLineChart";
+import { DemoBarChart } from "@/components/charts/DemoBarChart";
 
 export default function Home() {
   const [location, setLocation] = useState("");
@@ -55,6 +56,9 @@ export default function Home() {
           <h2 className="text-4xl bg-blue-300"> Vital Reproduction Metrics</h2>
           <h3>Total Fertility Rate (TFR)</h3>
           <DemoLineChart location={searchedLocation} type="TFR" />
+
+          <h3> Net Migration </h3>
+          <DemoBarChart location={searchedLocation} />
         </>
       ) : (
         <p className="text-foreground/60">Enter a country name and press Search to view statistics.</p>

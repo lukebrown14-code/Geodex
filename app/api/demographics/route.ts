@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
 
   let query = supabaseClient
     .from("DemographicIndicators")
-    .select("MedianAgePop,TFR, Time")
+    .select("MedianAgePop, TFR, NetMigrations, Time")
 
   if (location) {
     query = query.eq("Location", location)
