@@ -56,7 +56,11 @@ function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
               tickFormatter={(value) =>
                 Math.abs(value).toLocaleString()
               }
-              domain={["dataMin", "dataMax"]}
+
+              domain={([dataMin, dataMax]: [number, number]) => {
+                const padding = (dataMax - dataMin) * 0.1 || 1
+                return [Math.floor(dataMin - padding), Math.ceil(dataMax + padding)]
+              }}
             />
 
             <YAxis

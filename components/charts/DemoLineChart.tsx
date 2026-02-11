@@ -85,7 +85,7 @@ function LineContent({ data, dataKey, chartConfig }: { data: MedianData[], dataK
             const padding = (dataMax - dataMin) * 0.1 || 1
             return [Math.floor(dataMin - padding), Math.ceil(dataMax + padding)]
           }}
-          allowDecimals={false}
+          allowDecimals={true}
         />
         <ChartTooltip
           cursor={false}
