@@ -7,6 +7,9 @@ import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
 import { DependencyPieChart } from "@/components/charts/DependencyPieChart";
 import { DemoLineChart } from "@/components/charts/DemoLineChart";
 import { DemoBarChart } from "@/components/charts/DemoBarChart";
+import { SexRatioChart } from "@/components/charts/SexRatioChart";
+import { PopulationDensityCard } from "@/components/charts/PopulationDensityCard";
+import { NaturalGrowthChart } from "@/components/charts/NaturalGrowthChart";
 
 export default function Home() {
   const [location, setLocation] = useState("");
@@ -85,6 +88,12 @@ export default function Home() {
             <div className="animate-fade-in-up" style={{ animationDelay: "200ms" }}>
               <DependencyPieChart location={searchedLocation} />
             </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "250ms" }}>
+              <SexRatioChart location={searchedLocation} />
+            </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "300ms" }}>
+              <PopulationDensityCard location={searchedLocation} />
+            </div>
 
             {/* Section: Vital Reproduction Metrics */}
             <div className="col-span-full mt-4">
@@ -96,16 +105,19 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="animate-fade-in-up" style={{ animationDelay: "300ms" }}>
-              <DemoLineChart location={searchedLocation} type="TFR" />
-            </div>
             <div className="animate-fade-in-up" style={{ animationDelay: "400ms" }}>
-              <DemoLineChart location={searchedLocation} type="InfantDeaths" />
+              <NaturalGrowthChart location={searchedLocation} />
             </div>
             <div className="animate-fade-in-up" style={{ animationDelay: "500ms" }}>
-              <DemoBarChart location={searchedLocation} />
+              <DemoLineChart location={searchedLocation} type="TFR" />
             </div>
             <div className="animate-fade-in-up" style={{ animationDelay: "600ms" }}>
+              <DemoLineChart location={searchedLocation} type="InfantDeaths" />
+            </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "700ms" }}>
+              <DemoBarChart location={searchedLocation} />
+            </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "800ms" }}>
               <DemoLineChart location={searchedLocation} type="lifeExpect" />
             </div>
           </div>

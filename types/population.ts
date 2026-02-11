@@ -23,4 +23,8 @@ export interface MedianData {
   NetMigrations: number;
   InfantDeaths: number;
   LEx: number;
+  CBR: number;
+  CDR: number;
+  PopDensity: number;
+  TPopulation1July: number;
 }
