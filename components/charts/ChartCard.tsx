@@ -20,7 +20,7 @@ export function ChartCard<T>({ endpoint, title, location, className, children }:
   const { data, loading, error } = useApiData<T>(endpoint, params)
 
   return (
-    <Card className={className}>
+    <Card className={`h-full ${className ?? ""}`}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>

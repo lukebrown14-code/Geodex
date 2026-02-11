@@ -19,7 +19,7 @@ export function PopulationPyramid({ location }: { location: string }) {
       endpoint="/api/population"
       title={`Population Pyramid – ${location}`}
       location={location}
-      className="w-full max-w-4xl"
+      className="w-full"
     >
       {(raw) => <PyramidContent raw={raw} />}
     </ChartCard>
@@ -41,7 +41,7 @@ function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
 
   return (
     <>
-      <div className="h-125 w-full">
+      <div className="h-96 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}

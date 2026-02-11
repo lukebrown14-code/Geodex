@@ -42,27 +42,26 @@ export default function Home() {
       </div>
 
       {searchedLocation ? (
-        <>
-          <h2 className="text-4xl bg-red-300">Population Structure Analysis — {searchedLocation}</h2>
-          <h3>Population Pyramid</h3>
-          <PopulationPyramid location={searchedLocation} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <h2 className="col-span-full text-2xl font-semibold">
+            Population Structure Analysis — {searchedLocation}
+          </h2>
 
-          <h3>Median Age</h3>
+          <div className="col-span-full">
+            <PopulationPyramid location={searchedLocation} />
+          </div>
+
           <DemoLineChart location={searchedLocation} type="median" />
-
-          <h3>Dependency Ratio</h3>
           <DependencyPieChart location={searchedLocation} />
 
-          <h2 className="text-4xl bg-blue-300"> Vital Reproduction Metrics</h2>
-          <h3>Total Fertility Rate (TFR)</h3>
+          <h2 className="col-span-full text-2xl font-semibold">
+            Vital Reproduction Metrics
+          </h2>
+
           <DemoLineChart location={searchedLocation} type="TFR" />
-
-          <h3>Infant Deaths</h3>
           <DemoLineChart location={searchedLocation} type="InfantDeaths" />
-
-          <h3> Net Migration </h3>
           <DemoBarChart location={searchedLocation} />
-        </>
+        </div>
       ) : (
         <p className="text-foreground/60">Enter a country name and press Search to view statistics.</p>
       )}
