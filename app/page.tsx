@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Search, Globe } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
 import { DependencyPieChart } from "@/components/charts/DependencyPieChart";
 import { DemoLineChart } from "@/components/charts/DemoLineChart";
@@ -19,53 +21,104 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen p-8">
-      <h1 className="text-2xl font-bold mb-6">
-        Country Statistics Dashboard
-      </h1>
-
-      <div className="flex gap-4 mb-6">
-        <input
-          type="text"
-          placeholder="Search by country..."
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          className="px-3 py-2 border border-foreground/20 rounded-md bg-background text-foreground w-64"
-        />
-        <button
-          onClick={handleSearch}
-          className="px-4 py-2 bg-foreground text-background rounded-md hover:opacity-80"
-        >
-          Search
-        </button>
-      </div>
-
-      {searchedLocation ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <h2 className="col-span-full text-2xl font-semibold">
-            Population Structure Analysis — {searchedLocation}
-          </h2>
-
-          <div className="col-span-full">
-            <PopulationPyramid location={searchedLocation} />
+    <div className="min-h-screen">
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-6">
+          {/* Brand */}
+          <div className="shrink-0">
+            <h1 className="text-sm font-semibold tracking-tight text-foreground leading-none">
+              Country Statistics
+            </h1>
+            <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
+              Demographic data explorer
+            </p>
           </div>
 
-          <DemoLineChart location={searchedLocation} type="median" />
-          <DependencyPieChart location={searchedLocation} />
+          {/* Search — centered */}
+          <div className="relative flex-1 max-w-md mx-auto">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/60" />
+            <input
+              type="text"
+              placeholder="Search by country..."
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="w-full pl-9 pr-16 py-2 text-sm rounded-lg bg-muted/50 text-foreground border border-border/50 placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-chart-1/30 focus:border-chart-1/40 transition-all"
+            />
+            <button
+              onClick={handleSearch}
+              className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 bg-chart-1 text-white text-xs font-medium rounded-md hover:opacity-90 transition-opacity cursor-pointer"
+            >
+              Search
+            </button>
+          </div>
 
-          <h2 className="col-span-full text-2xl font-semibold">
-            Vital Reproduction Metrics
-          </h2>
-
-          <DemoLineChart location={searchedLocation} type="TFR" />
-          <DemoLineChart location={searchedLocation} type="InfantDeaths" />
-          <DemoBarChart location={searchedLocation} />
-          <DemoLineChart location={searchedLocation} type="lifeExpect" />
+          {/* Spacer + Toggle */}
+          <div className="ml-auto">
+            <ThemeToggle />
+          </div>
         </div>
-      ) : (
-        <p className="text-foreground/60">Enter a country name and press Search to view statistics.</p>
-      )}
+      </header>
+
+      {/* Content area */}
+      <main className="max-w-7xl mx-auto px-6 py-8">
+        {searchedLocation ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Section: Population Structure */}
+            <div className="col-span-full">
+              <h2 className="text-xl font-semibold border-l-4 border-chart-1 pl-3">
+                Population Structure Analysis
+              </h2>
+              <p className="text-muted-foreground text-sm mt-1 pl-3 ml-1">
+                {searchedLocation} — age distribution and dependency metrics
+              </p>
+            </div>
+
+            <div className="col-span-full animate-fade-in-up" style={{ animationDelay: "0ms" }}>
+              <PopulationPyramid location={searchedLocation} />
+            </div>
+
+            <div className="animate-fade-in-up" style={{ animationDelay: "100ms" }}>
+              <DemoLineChart location={searchedLocation} type="median" />
+            </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+              <DependencyPieChart location={searchedLocation} />
+            </div>
+
+            {/* Section: Vital Reproduction Metrics */}
+            <div className="col-span-full mt-4">
+              <h2 className="text-xl font-semibold border-l-4 border-chart-2 pl-3">
+                Vital Reproduction Metrics
+              </h2>
+              <p className="text-muted-foreground text-sm mt-1 pl-3 ml-1">
+                Fertility, mortality, and life expectancy trends
+              </p>
+            </div>
+
+            <div className="animate-fade-in-up" style={{ animationDelay: "300ms" }}>
+              <DemoLineChart location={searchedLocation} type="TFR" />
+            </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "400ms" }}>
+              <DemoLineChart location={searchedLocation} type="InfantDeaths" />
+            </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "500ms" }}>
+              <DemoBarChart location={searchedLocation} />
+            </div>
+            <div className="animate-fade-in-up" style={{ animationDelay: "600ms" }}>
+              <DemoLineChart location={searchedLocation} type="lifeExpect" />
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <Globe className="h-16 w-16 text-muted-foreground/40 mb-4" />
+            <h2 className="text-lg font-medium text-foreground/80">No country selected</h2>
+            <p className="text-muted-foreground text-sm mt-1 max-w-sm">
+              Enter a country name in the search bar above to explore demographic and vital statistics.
+            </p>
+          </div>
+        )}
+      </main>
     </div>
   );
 }

@@ -25,7 +25,7 @@ export function ChartCard<T>({ endpoint, title, location, className, children }:
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        {loading && <p>Loading...</p>}
+        {loading && <div className="animate-pulse bg-muted rounded h-[200px]" />}
         {error && <p className="text-red-500">Error: {error}</p>}
         {children(data)}
       </CardContent>
