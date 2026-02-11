@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
 import { DependencyPieChart } from "@/components/charts/DependencyPieChart";
-import { DemoLineChart } from "@/components/charts/MedianAgeLineChart";
+import { DemoLineChart } from "@/components/charts/DemoLineChart";
 import { DemoBarChart } from "@/components/charts/DemoBarChart";
 
 export default function Home() {

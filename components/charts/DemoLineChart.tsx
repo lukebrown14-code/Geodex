@@ -1,32 +1,18 @@
 "use client"
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
-
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { useMemo } from "react"
-import { useApiData } from "@/hooks/useApiData"
+import { ChartCard } from "@/components/charts/ChartCard"
 import { MedianData } from "@/types/population"
 
 export function DemoLineChart({ location, type }: { location: string, type: string }) {
-  const params = useMemo(
-    () => (location ? { location } : undefined),
-    [location],
-  )
-  const { data, loading, error } = useApiData<MedianData>("/api/demographics", params)
-
-  let graphTitle;
-  let dataKey;
+  let graphTitle: string | undefined;
+  let dataKey: string | undefined;
 
   if (type === "median") {
     graphTitle = "Median Age"
@@ -39,7 +25,7 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
   }
 
   if (type === "InfantDeaths") {
-    graphTitle = "Infant Mortality"
+    graphTitle = "Infant Mortality (per thousands)"
     dataKey = "InfantDeaths"
   }
 
@@ -51,13 +37,12 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
   } satisfies ChartConfig
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{graphTitle} (2000 - 2030)</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">Error: {error}</p>}
+    <ChartCard<MedianData>
+      endpoint="/api/demographics"
+      title={`${graphTitle} (2000 - 2030)`}
+      location={location}
+    >
+      {(data) => (
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
@@ -90,7 +75,7 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
             />
           </LineChart>
         </ChartContainer>
-      </CardContent>
-    </Card>
+      )}
+    </ChartCard>
   )
 }

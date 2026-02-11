@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import {
   Bar,
   BarChart,
@@ -9,18 +10,23 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useMemo } from "react";
-import { useApiData } from "@/hooks/useApiData";
+import { ChartCard } from "@/components/charts/ChartCard";
 import { PopulationRecord, PyramidData } from "@/types/population";
 
 export function PopulationPyramid({ location }: { location: string }) {
-  const params = useMemo(
-    () => (location ? { location } : undefined),
-    [location],
+  return (
+    <ChartCard<PopulationRecord>
+      endpoint="/api/population"
+      title={`Population Pyramid – ${location}`}
+      location={location}
+      className="w-full max-w-4xl"
+    >
+      {(raw) => <PyramidContent raw={raw} />}
+    </ChartCard>
   );
-  const { data: raw, loading, error } = useApiData<PopulationRecord>("/api/population", params);
+}
 
+function PyramidContent({ raw }: { raw: PopulationRecord[] }) {
   const data: PyramidData[] = useMemo(
     () =>
       raw
@@ -34,74 +40,66 @@ export function PopulationPyramid({ location }: { location: string }) {
   );
 
   return (
-    <Card className="w-full max-w-4xl">
-      <CardHeader>
-        <CardTitle>Population Pyramid – {location}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">Error: {error}</p>}
+    <>
+      <div className="h-125 w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={data}
+            layout="vertical"
+            margin={{ top: 10, right: 40, left: 40, bottom: 10 }}
+            stackOffset="sign"
+          >
+            <CartesianGrid strokeDasharray="3 3" horizontal={false} />
 
-        <div className="h-125 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={data}
-              layout="vertical"
-              margin={{ top: 10, right: 40, left: 40, bottom: 10 }}
-              stackOffset="sign"
-            >
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+            <XAxis
+              type="number"
+              tickFormatter={(value) =>
+                Math.abs(value).toLocaleString()
+              }
+              domain={["dataMin", "dataMax"]}
+            />
 
-              <XAxis
-                type="number"
-                tickFormatter={(value) =>
-                  Math.abs(value).toLocaleString()
-                }
-                domain={["dataMin", "dataMax"]}
-              />
+            <YAxis
+              type="category"
+              dataKey="age"
+              axisLine={false}
+              tickLine={false}
+              width={60}
+              fontSize={13}
+            />
 
-              <YAxis
-                type="category"
-                dataKey="age"
-                axisLine={false}
-                tickLine={false}
-                width={60}
-                fontSize={13}
-              />
+            <Tooltip
+              formatter={(value: number) =>
+                Math.abs(value).toLocaleString()
+              }
+            />
 
-              <Tooltip
-                formatter={(value: number) =>
-                  Math.abs(value).toLocaleString()
-                }
-              />
+            <Bar
+              dataKey="male"
+              fill="#3b82f6"
+              radius={[4, 0, 0, 4]}
+              name="Male"
+            />
+            <Bar
+              dataKey="female"
+              fill="#ec4899"
+              radius={[0, 4, 4, 0]}
+              name="Female"
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
 
-              <Bar
-                dataKey="male"
-                fill="#3b82f6"
-                radius={[4, 0, 0, 4]}
-                name="Male"
-              />
-              <Bar
-                dataKey="female"
-                fill="#ec4899"
-                radius={[0, 4, 4, 0]}
-                name="Female"
-              />
-            </BarChart>
-          </ResponsiveContainer>
+      <div className="mt-4 flex justify-center gap-8 text-sm">
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded-full bg-blue-500" />
+          <span>Male</span>
         </div>
-
-        <div className="mt-4 flex justify-center gap-8 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full bg-blue-500" />
-            <span>Male</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full bg-pink-500" />
-            <span>Female</span>
-          </div>
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-3 rounded-full bg-pink-500" />
+          <span>Female</span>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </>
   );
 }

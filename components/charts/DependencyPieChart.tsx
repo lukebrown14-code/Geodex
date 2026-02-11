@@ -2,20 +2,14 @@
 
 import { useMemo } from "react"
 import { Pie, PieChart, Cell } from "recharts"
-import { useApiData } from "@/hooks/useApiData"
 import { PopulationRecord } from "@/types/population"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
+import { ChartCard } from "@/components/charts/ChartCard"
 
 const chartConfig = {
   working: {
@@ -29,13 +23,18 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function DependencyPieChart({ location }: { location: string }) {
-  const params = useMemo(
-    () => (location ? { location } : undefined),
-    [location],
+  return (
+    <ChartCard<PopulationRecord>
+      endpoint="/api/population"
+      title={`Dependency Ratio – ${location}`}
+      location={location}
+    >
+      {(raw) => <PieContent raw={raw} />}
+    </ChartCard>
   )
+}
 
-  const { data: raw, loading, error } = useApiData<PopulationRecord>("/api/population", params)
-
+function PieContent({ raw }: { raw: PopulationRecord[] }) {
   const { working, nonWorking } = useMemo(() => {
     let working = 0
     let nonWorking = 0
@@ -66,59 +65,50 @@ export function DependencyPieChart({ location }: { location: string }) {
   const total = working + nonWorking
   const ratio = total > 0 ? ((nonWorking / working) * 100).toFixed(1) : "0"
 
+  if (total <= 0) return null
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Dependency Ratio – {location}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">Error: {error}</p>}
-        {total > 0 && (
-          <>
-            <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px]">
-              <PieChart>
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      formatter={(value) =>
-                        `${Number(value).toLocaleString()}k`
-                      }
-                    />
-                  }
-                />
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  strokeWidth={2}
-                >
-                  {pieData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.fill} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ChartContainer>
-            <div className="mt-4 text-center text-sm">
-              <p>Dependency ratio: <strong>{ratio}%</strong></p>
-              <div className="mt-2 flex justify-center gap-6">
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-working)" }} />
-                  <span>Working Age: {((working / total) * 100).toFixed(1)}%</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-nonWorking)" }} />
-                  <span>Dependents: {((nonWorking / total) * 100).toFixed(1)}%</span>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px]">
+        <PieChart>
+          <ChartTooltip
+            content={
+              <ChartTooltipContent
+                formatter={(value) =>
+                  `${Number(value).toLocaleString()}k`
+                }
+              />
+            }
+          />
+          <Pie
+            data={pieData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={100}
+            strokeWidth={2}
+          >
+            {pieData.map((entry) => (
+              <Cell key={entry.name} fill={entry.fill} />
+            ))}
+          </Pie>
+        </PieChart>
+      </ChartContainer>
+      <div className="mt-4 text-center text-sm">
+        <p>Dependency ratio: <strong>{ratio}%</strong></p>
+        <div className="mt-2 flex justify-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-working)" }} />
+            <span>Working Age: {((working / total) * 100).toFixed(1)}%</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-nonWorking)" }} />
+            <span>Dependents: {((nonWorking / total) * 100).toFixed(1)}%</span>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
