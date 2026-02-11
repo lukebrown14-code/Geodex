@@ -10,6 +10,7 @@ import { DemoBarChart } from "@/components/charts/DemoBarChart";
 import { SexRatioChart } from "@/components/charts/SexRatioChart";
 import { PopulationDensityCard } from "@/components/charts/PopulationDensityCard";
 import { NaturalGrowthChart } from "@/components/charts/NaturalGrowthChart";
+import { DemographicScoreCard } from "@/components/charts/DemographicScoreCard";
 
 export default function Home() {
   const [location, setLocation] = useState("");
@@ -68,8 +69,13 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-6 py-8">
         {searchedLocation ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Demographic Health Score */}
+            <div className="col-span-full animate-fade-in-up" style={{ animationDelay: "0ms" }}>
+              <DemographicScoreCard location={searchedLocation} />
+            </div>
+
             {/* Section: Population Structure */}
-            <div className="col-span-full">
+            <div className="col-span-full mt-2">
               <h2 className="text-xl font-semibold border-l-4 border-chart-1 pl-3">
                 Population Structure Analysis
               </h2>
