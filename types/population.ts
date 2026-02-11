@@ -19,4 +19,5 @@ export interface PyramidData {
 export interface MedianData {
   Time: number;
   MedianAgePop: number;
+  TFR: number;
 }

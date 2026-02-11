@@ -25,30 +25,17 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function DemoLineChart({ location, type }: { location: string, type: string }) {
+export function MedianAgeLineChart({ location }: { location: string }) {
   const params = useMemo(
     () => (location ? { location } : undefined),
     [location],
   )
   const { data, loading, error } = useApiData<MedianData>("/api/demographics", params)
 
-  let graphTitle;
-  let dataKey;
-
-  if (type === "median") {
-    graphTitle = "Median Age"
-    dataKey = "MedianAgePop"
-  }
-
-  if (type === "TFR") {
-    graphTitle = "Total Fertility Rate (TFR)"
-    dataKey = "TFR"
-  }
-
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{graphTitle} (2000 - 2030)</CardTitle>
+        <CardTitle>Median Age – {location} (2000–2030)</CardTitle>
       </CardHeader>
       <CardContent>
         {loading && <p>Loading...</p>}
@@ -76,7 +63,7 @@ export function DemoLineChart({ location, type }: { location: string, type: stri
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey={dataKey}
+              dataKey="MedianAgePop"
               type="natural"
               stroke="var(--color-medianAge)"
               strokeWidth={2}

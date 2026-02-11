@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { PopulationPyramid } from "@/components/charts/PopulationPyramid";
-import { MedianAgeLineChart } from "@/components/charts/MedianAgeLineChart";
 import { DependencyPieChart } from "@/components/charts/DependencyPieChart";
+import { DemoLineChart } from "@/components/charts/MedianAgeLineChart";
 
 export default function Home() {
   const [location, setLocation] = useState("");
@@ -42,15 +42,19 @@ export default function Home() {
 
       {searchedLocation ? (
         <>
-          <h2>Population Structure Analysis — {searchedLocation}</h2>
+          <h2 className="text-4xl bg-red-300">Population Structure Analysis — {searchedLocation}</h2>
           <h3>Population Pyramid</h3>
           <PopulationPyramid location={searchedLocation} />
 
           <h3>Median Age</h3>
-          <MedianAgeLineChart location={searchedLocation} />
+          <DemoLineChart location={searchedLocation} type="median" />
 
           <h3>Dependency Ratio</h3>
           <DependencyPieChart location={searchedLocation} />
+
+          <h2 className="text-4xl bg-blue-300"> Vital Reproduction Metrics</h2>
+          <h3>Total Fertility Rate (TFR)</h3>
+          <DemoLineChart location={searchedLocation} type="TFR" />
         </>
       ) : (
         <p className="text-foreground/60">Enter a country name and press Search to view statistics.</p>

@@ -5,9 +5,9 @@ export async function GET(request: NextRequest) {
   const location = request.nextUrl.searchParams.get("location")
 
   let query = supabaseClient
-  .from("DemographicIndicators")
-  .select("MedianAgePop, Time")
-  
+    .from("DemographicIndicators")
+    .select("MedianAgePop,TFR, Time")
+
   if (location) {
     query = query.eq("Location", location)
   }
