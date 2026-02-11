@@ -1,70 +1,93 @@
+# Country Statistics Dashboard
 
-# Metrics 
+An interactive demographic data explorer that lets you search any country and instantly assess the health of its
+population through visualizations and a composite scoring system.
 
-To analyze if a country has healthy demographics, you must examine metrics that balance current economic productivity
-with future sustainability. A healthy demographic profile typically features a stable or growing working-age population,
-replacement-level fertility, and manageable dependency ratios. [bbc.co](https://www.bbc.co.uk/bitesize/articles/zvjrqyc)
+## Purpose
 
-## Vital Reproduction Metrics
+Understanding whether a country has healthy demographics requires looking beyond a single number. This dashboard brings
+together the key indicators — fertility, mortality, age structure, migration, and density — into one view, and grades
+them against established benchmarks so you can quickly spot strengths and risks.
 
-The most fundamental indicator of demographic health is the ability of a population to sustain its size over
-generations. [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)
+## Features
 
-- **Total Fertility Rate (TFR):** The average number of children born to a woman; "replacement level" is roughly 2.1.
-  [populationpyramids](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)
-- **Net Migration Rate:** The difference between immigrants and emigrants, which can offset low birth rates or drain
-  human capital. [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)
-- **Infant Mortality:** Key indicators of health system quality and the overall "starting health" of the
-  newest generation.
-  [influenceflow](https://influenceflow.io/resources/measuring-community-health-metrics-and-analytics-a-complete-2026-guide/)
+### Demographic Health Score
 
-## Population Structure Analysis
+Each country receives an overall grade (A through F) based on six indicators scored against international benchmarks.
+Both extremes are penalized — a fertility rate of 1.1 is just as concerning as 6.0. Each indicator shows a traffic light
+(green/yellow/red) with a plain-English explanation.
 
-The distribution of age groups determines the immediate and long-term economic burden on a society.
-[data.worldbank](https://data.worldbank.org/indicator)
+| Indicator                 | Healthy     | Warning            | Unhealthy    |
+| ------------------------- | ----------- | ------------------ | ------------ |
+| Life Expectancy           | 75+ years   | 65–75              | <65          |
+| Infant Mortality (per 1k) | <10         | 10–30              | 30+          |
+| Fertility Rate (TFR)      | 1.8–2.5     | 1.3–1.8 or 2.5–4.0 | <1.3 or 4.0+ |
+| Median Age                | 25–38       | 20–25 or 38–45     | <20 or 45+   |
+| Natural Growth (CBR-CDR)  | 2–15 per 1k | 0–2 or 15–25       | <0 or 25+    |
+| Dependency Ratio          | <60%        | 60–80%             | 80%+         |
 
-- **Dependency Ratio:** The ratio of non-working age people (under 15 and over 65) to the working-age population
-  (15–64). [bbc.co](https://www.bbc.co.uk/bitesize/articles/zvjrqyc)
-- **Median Age:** A rising median age indicates an "aging" society, which often faces labor shortages and increased
-  healthcare costs. [bbc.co](https://www.bbc.co.uk/bitesize/articles/zvjrqyc)
-- **Population Pyramid Shape:** Healthy "stationary" pyramids are barrel-shaped, while "constrictive" pyramids (narrow
-  base) signal future decline.
-  [populationpyramids](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)
+### Population Structure Analysis
 
-## Health and Longevity Indicators
+- **Population Pyramid** — age and sex distribution (2026 snapshot)
+- **Median Age Trend** — aging trajectory from 2010–2040
+- **Dependency Ratio** — split into youth (0–15) and old-age (60+) components
+- **Sex Ratio by Age** — males per 100 females across age groups
+- **Population Density** — people per km² with a visual gauge and density level
 
-A healthy demographic is not just about numbers, but also the physical capability and well-being of the people.
-[oecd](https://www.oecd.org/en/publications/health-at-a-glance-2025_8f9e3f98-en.html)
+### Vital Reproduction Metrics
 
-- **Life Expectancy at Birth:** Reflects general living standards, nutrition, and medical access.
-  [oecd](https://www.oecd.org/en/publications/2025/11/health-at-a-glance-2025_a894f72e/full-report/indicator-overview-country-dashboards-and-major-trends_368ac397.html)
-- **Healthy Life Expectancy (HALE):** Measures the years a person lives in "good health" rather than just total years
-  lived.
-  [influenceflow](https://influenceflow.io/resources/measuring-community-health-metrics-and-analytics-a-complete-2026-guide/)
-- **Disease Prevalence:** Tracking chronic and infectious diseases reveals the long-term strain on the workforce and
-  national budget. [worldpopulationreview](https://worldpopulationreview.com/country-rankings/healthiest-countries)
+- **Natural Growth Rate** — crude birth rate vs crude death rate over time
+- **Total Fertility Rate (TFR)** — children per woman, 2010–2040
+- **Infant Mortality** — deaths per 1,000 live births, 2010–2040
+- **Net Migration** — immigration vs emigration with logarithmic scale
+- **Life Expectancy** — trend from 2010–2040
 
-### Core Demographic Metrics Comparison
+## Data Source
 
-| Metric                      | Healthy Indicator                                                                                                                           | Risk Indicator                                                                                                                                  |
-| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Fertility Rate (TFR)**    | ~2.1 (Replacement level) [populationpyramids](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)              | <1.5 (Rapid aging/decline) [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)                    |
-| **Dependency Ratio**        | Low (More workers than dependents) [bbc.co](https://www.bbc.co.uk/bitesize/articles/zvjrqyc)                                                | High (Strained social services) [bbc.co](https://www.bbc.co.uk/bitesize/articles/zvjrqyc)                                                       |
-| **Net Migration**           | Positive or Neutral [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)                       | Highly Negative (Brain drain) [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)                 |
-| **Healthy Life Expectancy** | High and rising [influenceflow](https://influenceflow.io/resources/measuring-community-health-metrics-and-analytics-a-complete-2026-guide/) | Stagnant or falling [influenceflow](https://influenceflow.io/resources/measuring-community-health-metrics-and-analytics-a-complete-2026-guide/) |
+All data comes from the
+[UN World Population Prospects](https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format),
+stored in Supabase with two tables:
 
-## Social and Economic Determinants
+- **Pop5YearGroup** — population by 5-year age group and sex (2026)
+- **DemographicIndicators** — time-series demographic metrics (all years)
 
-Demographic health is also tied to how well a country utilizes its human capital and ensures equity.
-[nationalequityatlas](https://www.nationalequityatlas.org/indicators)
+## Tech Stack
 
-- **Youth Unemployment:** High rates among the young can lead to social instability and delayed family formation.
-  [nationalequityatlas](https://www.nationalequityatlas.org/indicators)
-- **Gender Equity:** Metrics like women's workforce participation often correlate with more resilient and balanced
-  demographic trends. [oecd](https://www.oecd.org/en/publications/health-at-a-glance-2025_8f9e3f98-en.html)
-- **Urbanization Rate:** Rapid, unplanned urbanization can stress resources, while balanced growth supports economic
-  health. [populationpyramids](https://populationpyramids.org/blog/population-pyramid-types-complete-guide)
+- **Next.js** (App Router) with React
+- **Supabase** for data storage
+- **Recharts** for visualizations
+- **shadcn/ui** for component primitives
+- **Tailwind CSS** for styling
+- **next-themes** for dark/light mode
 
+## Getting Started
 
+```bash
+npm install
+```
 
-**DATA SETS:** https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format
+Create a `.env.local` with your Supabase credentials:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_url
+SUPABASE_KEY=your_key
+```
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) and search for a country.
+
+## Background Reading
+
+- [BBC Bitesize — Population Structure](https://www.bbc.co.uk/bitesize/articles/zvjrqyc)
+- [Population Pyramids — Types Guide](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)
+- [OECD — Health at a Glance 2025](https://www.oecd.org/en/publications/health-at-a-glance-2025_8f9e3f98-en.html)
+- [World Bank — Development Indicators](https://data.worldbank.org/indicator)
+
+## Todo
+
+- Add autocomplete when using search bar
+- Add economically data tab, to see the health of the country economy
+- Add compare tool. So you can compare to countries side by side
