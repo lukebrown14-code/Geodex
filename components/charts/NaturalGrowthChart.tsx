@@ -52,18 +52,21 @@ function AreaContent({ data }: { data: MedianData[] }) {
   return (
     <>
       <ChartContainer config={chartConfig}>
-        <AreaChart data={parsed} margin={{ left: 12, right: 12 }}>
+        <AreaChart data={parsed} margin={{ left: 4, right: 8 }}>
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey="Time"
             tickLine={false}
             axisLine={false}
             tickMargin={8}
+            fontSize={12}
           />
           <YAxis
             tickLine={false}
             axisLine={false}
-            tickMargin={8}
+            tickMargin={4}
+            width={40}
+            fontSize={12}
           />
           <ChartTooltip
             content={
@@ -94,13 +97,13 @@ function AreaContent({ data }: { data: MedianData[] }) {
         </AreaChart>
       </ChartContainer>
       {latest && (
-        <div className="mt-3 flex justify-center gap-6 text-sm">
+        <div className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-cbr)" }} />
+            <div className="h-3 w-3 rounded-full shrink-0" style={{ background: "var(--color-cbr)" }} />
             <span>Births: {latest.CBR.toFixed(1)}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-cdr)" }} />
+            <div className="h-3 w-3 rounded-full shrink-0" style={{ background: "var(--color-cdr)" }} />
             <span>Deaths: {latest.CDR.toFixed(1)}</span>
           </div>
           <span className="text-muted-foreground">

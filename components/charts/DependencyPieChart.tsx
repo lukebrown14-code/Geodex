@@ -79,7 +79,7 @@ function PieContent({ raw }: { raw: PopulationRecord[] }) {
 
   return (
     <>
-      <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[300px]">
+      <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px] sm:max-h-[300px]">
         <PieChart>
           <ChartTooltip
             content={
@@ -112,17 +112,17 @@ function PieContent({ raw }: { raw: PopulationRecord[] }) {
           <span>Youth: {youthRatio}%</span>
           <span>Old-age: {elderlyRatio}%</span>
         </div>
-        <div className="mt-2 flex justify-center gap-4 flex-wrap">
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-working)" }} />
+        <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-xs sm:text-sm">
+          <div className="flex items-center gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: "var(--color-working)" }} />
             <span>Working: {((working / total) * 100).toFixed(1)}%</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-youth)" }} />
+          <div className="flex items-center gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: "var(--color-youth)" }} />
             <span>Youth: {((youth / total) * 100).toFixed(1)}%</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full" style={{ background: "var(--color-elderly)" }} />
+          <div className="flex items-center gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: "var(--color-elderly)" }} />
             <span>Elderly: {((elderly / total) * 100).toFixed(1)}%</span>
           </div>
         </div>

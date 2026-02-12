@@ -180,21 +180,21 @@ export function DemographicScoreCard({ location }: { location: string }) {
         {loading && <div className="animate-pulse bg-muted rounded h-[140px]" />}
         {error && <p className="text-red-500">Error: {error}</p>}
         {grade && indicators.length > 0 && (
-          <div className="flex gap-6 flex-col sm:flex-row">
+          <div className="flex gap-4 sm:gap-6 flex-col sm:flex-row">
             {/* Grade circle */}
-            <div className="flex flex-col items-center justify-center shrink-0">
+            <div className="flex sm:flex-col items-center sm:justify-center gap-3 sm:gap-0 shrink-0">
               <div
-                className="h-24 w-24 rounded-2xl flex items-center justify-center border-2"
+                className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl flex items-center justify-center border-2"
                 style={{ borderColor: grade.color, backgroundColor: grade.bgColor }}
               >
                 <span
-                  className="text-5xl font-black tracking-tighter"
+                  className="text-4xl sm:text-5xl font-black tracking-tighter"
                   style={{ color: grade.color }}
                 >
                   {grade.letter}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 text-center max-w-[120px]">
+              <p className="text-xs text-muted-foreground sm:mt-2 text-center sm:max-w-[120px]">
                 {grade.summary}
               </p>
             </div>

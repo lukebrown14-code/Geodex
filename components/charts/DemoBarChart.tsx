@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
-import { Bar, BarChart, CartesianGrid, Cell, Label, ReferenceLine, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Cell, ReferenceLine, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,
   ChartTooltip,
@@ -56,7 +56,7 @@ function BarContent({ raw }: { raw: MedianData[] }) {
         <BarChart
           accessibilityLayer
           data={data}
-          margin={{ left: 12, right: 12 }}
+          margin={{ left: 4, right: 8 }}
         >
           <CartesianGrid vertical={false} />
           <XAxis
@@ -64,19 +64,19 @@ function BarContent({ raw }: { raw: MedianData[] }) {
             tickLine={false}
             axisLine={false}
             tickMargin={8}
+            fontSize={12}
           />
           <YAxis
             tickLine={false}
             axisLine={false}
-            tickMargin={8}
+            tickMargin={4}
+            width={45}
+            fontSize={11}
             tickFormatter={(value) => {
               const original = symExp(value)
               return `${Math.round(original).toLocaleString()}k`
             }}
-          >
-            <Label value="Immigration ↑" position="insideTopLeft" offset={10} style={{ fontSize: 12, fill: "hsl(var(--foreground))" }} />
-            <Label value="↓ Emigration" position="insideBottomLeft" offset={10} style={{ fontSize: 12, fill: "hsl(var(--foreground))" }} />
-          </YAxis>
+          />
           <ChartTooltip
             content={
               <ChartTooltipContent

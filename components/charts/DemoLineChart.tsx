@@ -77,7 +77,7 @@ function LineContent({ data, dataKey, chartConfig, configKey }: { data: MedianDa
       <LineChart
         accessibilityLayer
         data={parsed}
-        margin={{ left: 12, right: 12 }}
+        margin={{ left: 4, right: 8 }}
       >
         <CartesianGrid vertical={false} />
         <XAxis
@@ -85,11 +85,14 @@ function LineContent({ data, dataKey, chartConfig, configKey }: { data: MedianDa
           tickLine={false}
           axisLine={false}
           tickMargin={8}
+          fontSize={12}
         />
         <YAxis
           tickLine={false}
           axisLine={false}
-          tickMargin={8}
+          tickMargin={4}
+          width={40}
+          fontSize={12}
           domain={([dataMin, dataMax]: [number, number]) => {
             const padding = (dataMax - dataMin) * 0.1 || 1
             return [Math.floor(dataMin - padding), Math.ceil(dataMax + padding)]
