@@ -2,14 +2,14 @@
 
 import { useMemo } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ReferenceLine } from "recharts"
-import { PopulationRecord } from "@/types/population"
+import { PopulationRecord } from "@/types/demographics"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/demographics/ChartCard"
+import { ChartCard } from "@/components/charts/ChartCard"
 
 const chartConfig = {
   sexRatio: {

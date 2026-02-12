@@ -8,8 +8,8 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/demographics/ChartCard"
-import { MedianData } from "@/types/population"
+import { ChartCard } from "@/components/charts/ChartCard"
+import { MedianData } from "@/types/demographics"
 
 const chartConfig = {
   positive: {
@@ -30,7 +30,7 @@ function symExp(value: number): number {
   return Math.sign(value) * (Math.pow(10, Math.abs(value)) - 1)
 }
 
-export function DemoBarChart({ location }: { location: string }) {
+export function DemographicBarChart({ location }: { location: string }) {
   return (
     <ChartCard<MedianData>
       endpoint="/api/demographics"

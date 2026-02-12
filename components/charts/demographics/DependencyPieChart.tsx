@@ -2,14 +2,14 @@
 
 import { useMemo } from "react"
 import { Pie, PieChart, Cell } from "recharts"
-import { PopulationRecord } from "@/types/population"
+import { PopulationRecord } from "@/types/demographics"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/demographics/ChartCard"
+import { ChartCard } from "@/components/charts/ChartCard"
 
 const chartConfig = {
   working: {
@@ -79,7 +79,7 @@ function PieContent({ raw }: { raw: PopulationRecord[] }) {
 
   return (
     <>
-      <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px] sm:max-h-[300px]">
+      <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-62.5 sm:max-h-75">
         <PieChart>
           <ChartTooltip
             content={

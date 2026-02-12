@@ -8,8 +8,8 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/demographics/ChartCard"
-import { EconomicData } from "@/types/population"
+import { ChartCard } from "@/components/charts/ChartCard"
+import { EconomicData } from "@/types/economics"
 
 const chartConfig = {
   surplus: {

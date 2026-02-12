@@ -2,14 +2,14 @@
 
 import { useMemo } from "react"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { EconomicData } from "@/types/population"
+import { EconomicData } from "@/types/economics"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/demographics/ChartCard"
+import { ChartCard } from "@/components/charts/ChartCard"
 
 const chartConfig = {
   revenue: {

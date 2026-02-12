@@ -1,20 +1,12 @@
 "use client"
 
 import { useMemo } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useApiData } from "@/hooks/useApiData"
-import { MedianData, PopulationRecord } from "@/types/population"
+import { MedianData, PopulationRecord } from "@/types/demographics"
+import { type IndicatorResult, type Rating, computeGrade } from "@/lib/scoring"
+import { ScoreCard } from "@/components/charts/ScoreCard"
 
-/* ── Scoring helpers ── */
-
-type Rating = "healthy" | "warning" | "unhealthy"
-
-interface IndicatorResult {
-  label: string
-  value: string
-  rating: Rating
-  detail: string
-}
+/* ── Domain-specific rating functions ── */
 
 function rateLifeExpectancy(lex: number): IndicatorResult {
   const rating: Rating = lex >= 75 ? "healthy" : lex >= 65 ? "warning" : "unhealthy"
@@ -105,29 +97,6 @@ function rateDependency(working: number, dependent: number): IndicatorResult {
   }
 }
 
-/* ── Compute overall grade ── */
-
-function computeGrade(indicators: IndicatorResult[]): { letter: string; color: string; bgColor: string; summary: string } {
-  const scores = indicators.map((i) =>
-    i.rating === "healthy" ? 3 : i.rating === "warning" ? 2 : 1
-  )
-  const avg = scores.reduce((a, b) => a + b, 0) / scores.length
-
-  if (avg >= 2.7) return { letter: "A", color: "#22c55e", bgColor: "rgba(34,197,94,0.1)", summary: "Strong demographic health" }
-  if (avg >= 2.3) return { letter: "B", color: "#84cc16", bgColor: "rgba(132,204,22,0.1)", summary: "Good with minor concerns" }
-  if (avg >= 1.8) return { letter: "C", color: "#eab308", bgColor: "rgba(234,179,8,0.1)", summary: "Mixed demographic signals" }
-  if (avg >= 1.4) return { letter: "D", color: "#f97316", bgColor: "rgba(249,115,22,0.1)", summary: "Several areas of concern" }
-  return { letter: "F", color: "#ef4444", bgColor: "rgba(239,68,68,0.1)", summary: "Critical demographic challenges" }
-}
-
-/* ── Rating colors ── */
-
-const RATING_STYLES: Record<Rating, { dot: string; text: string }> = {
-  healthy:   { dot: "#22c55e", text: "text-green-500" },
-  warning:   { dot: "#eab308", text: "text-yellow-500" },
-  unhealthy: { dot: "#ef4444", text: "text-red-500" },
-}
-
 /* ── Component ── */
 
 export function DemographicScoreCard({ location }: { location: string }) {
@@ -141,14 +110,12 @@ export function DemographicScoreCard({ location }: { location: string }) {
   const { indicators, grade } = useMemo(() => {
     if (demo.data.length === 0) return { indicators: [], grade: null }
 
-    // Get most recent year
     const sorted = [...demo.data]
       .filter((d) => d.LEx != null)
       .sort((a, b) => b.Time - a.Time)
     const latest = sorted[0]
     if (!latest) return { indicators: [], grade: null }
 
-    // Dependency ratio from population data
     let working = 0
     let dependent = 0
     for (const r of pop.data) {
@@ -171,65 +138,25 @@ export function DemographicScoreCard({ location }: { location: string }) {
     return { indicators, grade: computeGrade(indicators) }
   }, [demo.data, pop.data])
 
-  return (
-    <Card className="h-full col-span-full">
-      <CardHeader>
-        <CardTitle>Demographic Health Score — {location}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {loading && <div className="animate-pulse bg-muted rounded h-[140px]" />}
-        {error && <p className="text-red-500">Error: {error}</p>}
-        {grade && indicators.length > 0 && (
-          <div className="flex gap-4 sm:gap-6 flex-col sm:flex-row">
-            {/* Grade circle */}
-            <div className="flex sm:flex-col items-center sm:justify-center gap-3 sm:gap-0 shrink-0">
-              <div
-                className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl flex items-center justify-center border-2"
-                style={{ borderColor: grade.color, backgroundColor: grade.bgColor }}
-              >
-                <span
-                  className="text-4xl sm:text-5xl font-black tracking-tighter"
-                  style={{ color: grade.color }}
-                >
-                  {grade.letter}
-                </span>
-              </div>
-              <p className="text-xs text-muted-foreground sm:mt-2 text-center sm:max-w-[120px]">
-                {grade.summary}
-              </p>
-            </div>
+  if (!grade) {
+    return (
+      <ScoreCard
+        title={`Demographic Health Score — ${location}`}
+        indicators={[]}
+        grade={{ letter: "", color: "", bgColor: "", summary: "" }}
+        loading={loading}
+        error={error}
+      />
+    )
+  }
 
-            {/* Indicator grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 flex-1">
-              {indicators.map((ind) => {
-                const style = RATING_STYLES[ind.rating]
-                return (
-                  <div
-                    key={ind.label}
-                    className="rounded-lg border border-border/50 px-3 py-2.5 flex flex-col gap-1"
-                  >
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="h-2 w-2 rounded-full shrink-0"
-                        style={{ backgroundColor: style.dot }}
-                      />
-                      <span className="text-[11px] text-muted-foreground truncate">
-                        {ind.label}
-                      </span>
-                    </div>
-                    <span className="text-sm font-semibold text-foreground">
-                      {ind.value}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground leading-tight">
-                      {ind.detail}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+  return (
+    <ScoreCard
+      title={`Demographic Health Score — ${location}`}
+      indicators={indicators}
+      grade={grade}
+      loading={loading}
+      error={error}
+    />
   )
 }

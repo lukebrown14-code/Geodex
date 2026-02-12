@@ -8,10 +8,10 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/demographics/ChartCard"
-import { MedianData } from "@/types/population"
+import { ChartCard } from "@/components/charts/ChartCard"
+import { MedianData } from "@/types/demographics"
 
-export function DemoLineChart({ location, type }: { location: string, type: string }) {
+export function DemographicLineChart({ location, type }: { location: string, type: string }) {
   let graphTitle: string | undefined;
   let dataKey: string | undefined;
 
