@@ -126,10 +126,10 @@ export default function Home() {
               <DemoLineChart location={searchedLocation} type="InfantDeaths" />
             </div>
             <div className="animate-fade-in-up" style={{ animationDelay: "700ms" }}>
-              <DemoBarChart location={searchedLocation} />
-            </div>
-            <div className="animate-fade-in-up" style={{ animationDelay: "800ms" }}>
               <DemoLineChart location={searchedLocation} type="lifeExpect" />
+            </div>
+            <div className="animate-fade-in-up col-span-full max-w-3xl mx-auto w-full" style={{ animationDelay: "800ms" }}>
+              <DemoBarChart location={searchedLocation} />
             </div>
           </div>
         ) : (
