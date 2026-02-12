@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartCard } from "@/components/charts/ChartCard";
+import { ChartCard } from "@/components/charts/demographics/ChartCard";
 import { PopulationRecord, PyramidData } from "@/types/population";
 
 export function PopulationPyramid({ location }: { location: string }) {

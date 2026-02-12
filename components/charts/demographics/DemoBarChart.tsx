@@ -8,7 +8,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/ChartCard"
+import { ChartCard } from "@/components/charts/demographics/ChartCard"
 import { MedianData } from "@/types/population"
 
 const chartConfig = {

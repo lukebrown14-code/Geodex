@@ -2,7 +2,7 @@
 
 import { useMemo } from "react"
 import { MedianData } from "@/types/population"
-import { ChartCard } from "@/components/charts/ChartCard"
+import { ChartCard } from "@/components/charts/demographics/ChartCard"
 
 // Reference points (people per km²) for the spectrum
 const DENSITY_BANDS = [
