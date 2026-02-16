@@ -2,6 +2,7 @@ import { EconLineChart } from "@/components/charts/economics/EconLineChart";
 import { EconScoreCard } from "@/components/charts/economics/EconScoreCard";
 import { EconAreaChart } from "@/components/charts/economics/EconAreaChart";
 import { EconBarChart } from "@/components/charts/economics/EconBarChart";
+import { EconMetricBarChart } from "@/components/charts/economics/EconMetricBarChart";
 
 export function EconomicGraphs({
   searchedLocation,
@@ -22,7 +23,7 @@ export function EconomicGraphs({
 
       {/* Row 3: GDP Growth | GDP per Capita */}
       <div className="animate-fade-in-up" style={{ animationDelay: "200ms" }}>
-        <EconLineChart location={searchedLocation} type="GDP Growth" />
+        <EconMetricBarChart location={searchedLocation} type="GDP Growth" />
       </div>
       <div className="animate-fade-in-up" style={{ animationDelay: "300ms" }}>
         <EconLineChart location={searchedLocation} type="GDP per Capita" />
@@ -48,7 +49,7 @@ export function EconomicGraphs({
         <EconAreaChart location={searchedLocation} />
       </div>
       <div className="animate-fade-in-up" style={{ animationDelay: "800ms" }}>
-        <EconLineChart location={searchedLocation} type="Public Debt" />
+        <EconMetricBarChart location={searchedLocation} type="Public Debt" />
       </div>
 
       {/* Row 7: Current Account Balance */}
