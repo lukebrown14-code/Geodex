@@ -11,6 +11,10 @@ them against established benchmarks so you can quickly spot strengths and risks.
 
 ## Features
 
+### Country Search with Autocomplete
+
+Start typing a country name and an autocomplete dropdown appears with matching results. Navigate suggestions with arrow keys, select with Enter or click, and dismiss with Escape. The dropdown uses a substring match so typing "land" will surface Iceland, Ireland, Finland, etc.
+
 ### Demographic Health Score
 
 Each country receives an overall grade (A through F) based on six indicators scored against international benchmarks.
@@ -42,6 +46,34 @@ Both extremes are penalized — a fertility rate of 1.1 is just as concerning as
 - **Net Migration** — immigration vs emigration with logarithmic scale
 - **Life Expectancy** — trend from 2010–2040
 
+### Economic Health Score
+
+Each country receives an overall economic grade (A through F) based on six indicators scored against established benchmarks.
+Each indicator shows a traffic light (green/yellow/red) with a plain-English explanation.
+
+| Indicator                  | Healthy        | Warning              | Unhealthy       |
+| -------------------------- | -------------- | -------------------- | --------------- |
+| GDP Growth (% annual)      | >2%            | 0–2%                 | <0%             |
+| GDP per Capita (USD)       | $20,000+       | $5,000–$20,000       | <$5,000         |
+| Inflation (CPI %)          | 1–3%           | 0–1% or 3–6%         | <0% or 6%+      |
+| Unemployment Rate (%)      | <5%            | 5–10%                | 10%+            |
+| Public Debt (% of GDP)     | <60%           | 60–90%               | 90%+            |
+| Current Account (% of GDP) | Surplus (>0%)  | Mild deficit (0–-3%) | Deficit (<-3%)  |
+
+### Economic Indicators
+
+- **GDP** — total gross domestic product over time
+- **GDP Growth** — annual percentage change in GDP
+- **GDP per Capita** — GDP divided by population, tracking standard of living
+- **Inflation** — consumer price index percentage change over time
+- **Unemployment** — unemployment rate trend
+
+### Fiscal & Trade
+
+- **Revenue vs Expense** — government revenue and expenditure as an area chart
+- **Public Debt** — government debt as a percentage of GDP
+- **Current Account Balance** — trade surplus or deficit as a percentage of GDP
+
 ## Data Source
 
 All data comes from the
@@ -50,6 +82,7 @@ stored in Supabase with two tables:
 
 - **Pop5YearGroup** — population by 5-year age group and sex (2026)
 - **DemographicIndicators** — time-series demographic metrics (all years)
+- **WBD** — World Bank economic indicators (GDP, inflation, unemployment, debt, trade)
 
 ## Tech Stack
 
@@ -88,6 +121,4 @@ Open [http://localhost:3000](http://localhost:3000) and search for a country.
 
 ## Todo
 
-- Add autocomplete when using search bar
-- Add economically data tab, to see the health of the country economy
 - Add compare tool. So you can compare to countries side by side
