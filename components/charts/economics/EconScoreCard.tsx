@@ -127,6 +127,7 @@ export function EconScoreCard({ location }: { location: string }) {
         grade={{ letter: "", color: "", bgColor: "", summary: "" }}
         loading={loading}
         error={error}
+        info="Overall economic health grade based on GDP growth, income level, inflation, unemployment, debt, and trade balance."
       />
     )
   }
@@ -138,6 +139,7 @@ export function EconScoreCard({ location }: { location: string }) {
       grade={grade}
       loading={loading}
       error={error}
+      info="Overall economic health grade based on GDP growth, income level, inflation, unemployment, debt, and trade balance."
     />
   )
 }

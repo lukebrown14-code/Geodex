@@ -28,6 +28,17 @@ export function EconAreaChart({ location }: { location: string }) {
       endpoint="/api/economics"
       title={`Gov Revenue vs Expense – ${location}`}
       location={location}
+      info="Government revenue vs spending as percentage of GDP."
+      infoFn={(data) => {
+        const valid = data
+          .filter(d => d["Government Revenue (% of GDP)"] != null && d["Government Expense (% of GDP)"] != null)
+          .sort((a, b) => b.year - a.year)
+        if (valid.length === 0) return ""
+        const rev = parseFloat(valid[0]["Government Revenue (% of GDP)"]!)
+        const exp = parseFloat(valid[0]["Government Expense (% of GDP)"]!)
+        const balance = rev - exp
+        return `Latest balance: ${balance > 0 ? "+" : ""}${balance.toFixed(1)}% GDP (${balance >= 0 ? "surplus" : "deficit"})`
+      }}
     >
       {(data) => <AreaContent data={data} />}
     </ChartCard>

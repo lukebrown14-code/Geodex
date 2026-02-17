@@ -1,4 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Info } from "lucide-react"
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { type IndicatorResult, type Grade, RATING_STYLES } from "@/lib/scoring"
 
 interface ScoreCardProps {
@@ -7,13 +9,32 @@ interface ScoreCardProps {
   grade: Grade
   loading?: boolean
   error?: string | null
+  info?: string
 }
 
-export function ScoreCard({ title, indicators, grade, loading, error }: ScoreCardProps) {
+export function ScoreCard({ title, indicators, grade, loading, error, info }: ScoreCardProps) {
   return (
     <Card className="h-full col-span-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
+        {info && (
+          <CardAction>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Score info"
+                >
+                  <Info className="h-4 w-4" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-64 text-pretty">
+                <p>{info}</p>
+              </TooltipContent>
+            </Tooltip>
+          </CardAction>
+        )}
       </CardHeader>
       <CardContent>
         {loading && <div className="animate-pulse bg-muted rounded h-[140px]" />}

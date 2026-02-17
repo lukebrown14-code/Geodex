@@ -24,6 +24,13 @@ export function SexRatioChart({ location }: { location: string }) {
       endpoint="/api/population"
       title={`Sex Ratio by Age – ${location}`}
       location={location}
+      info="Number of males per 100 females across age groups."
+      infoFn={(data) => {
+        const totalMale = data.reduce((s, d) => s + d.PopMale, 0)
+        const totalFemale = data.reduce((s, d) => s + d.PopFemale, 0)
+        if (totalFemale <= 0) return ""
+        return `Overall: ${((totalMale / totalFemale) * 100).toFixed(1)} males per 100 females`
+      }}
     >
       {(raw) => <BarContent raw={raw} />}
     </ChartCard>

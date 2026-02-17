@@ -34,8 +34,15 @@ export function DemographicBarChart({ location }: { location: string }) {
   return (
     <ChartCard<MedianData>
       endpoint="/api/demographics"
-      title={`Net Migration – ${location} (2010–2040)`}
+      title={`Net Migration \u2013 ${location} (2010\u20132040)`}
       location={location}
+      info="Net migration \u2014 positive means more immigration than emigration."
+      infoFn={(data) => {
+        const sorted = [...data].filter(d => d.NetMigrations != null).sort((a, b) => b.Time - a.Time)
+        if (sorted.length === 0) return ""
+        const v = sorted[0].NetMigrations
+        return `Latest net migration: ${v > 0 ? "+" : ""}${Math.round(v).toLocaleString()}k`
+      }}
     >
       {(raw) => <BarContent raw={raw} />}
     </ChartCard>

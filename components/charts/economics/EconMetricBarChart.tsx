@@ -23,6 +23,8 @@ interface MetricConfig {
   negativeLabel?: string
   positiveColor?: string
   negativeColor?: string
+  info: string
+  infoFn: (data: EconomicData[]) => string
 }
 
 const METRIC_MAP: Record<string, MetricConfig> = {
@@ -37,6 +39,13 @@ const METRIC_MAP: Record<string, MetricConfig> = {
     negativeLabel: "Contraction",
     positiveColor: "var(--chart-2)",
     negativeColor: "var(--chart-3)",
+    info: "Annual GDP growth rate shown as bars.",
+    infoFn: (data) => {
+      const valid = data.filter(d => d["GDP Growth (% Annual)"] != null)
+      if (valid.length === 0) return ""
+      const avg = valid.reduce((s, d) => s + Number(d["GDP Growth (% Annual)"]), 0) / valid.length
+      return `Average growth over period: ${avg.toFixed(1)}%`
+    },
   },
   "Public Debt": {
     title: "Public Debt (% of GDP)",
@@ -44,6 +53,12 @@ const METRIC_MAP: Record<string, MetricConfig> = {
     valueKey: "publicDebt",
     color: "var(--chart-1)",
     tooltipSuffix: "% of GDP",
+    info: "Total government debt as percentage of GDP.",
+    infoFn: (data) => {
+      const sorted = [...data].filter(d => d["Public Debt (% of GDP)"] != null).sort((a, b) => b.year - a.year)
+      if (sorted.length === 0) return ""
+      return `Latest: ${Number(sorted[0]["Public Debt (% of GDP)"]).toFixed(0)}% of GDP`
+    },
   },
 }
 
@@ -70,6 +85,8 @@ export function EconMetricBarChart({
       endpoint="/api/economics"
       title={meta.title}
       location={location}
+      info={meta.info}
+      infoFn={meta.infoFn}
     >
       {(raw) => (
         <BarContent raw={raw} meta={meta} chartConfig={chartConfig} />

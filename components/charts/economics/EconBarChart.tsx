@@ -28,6 +28,13 @@ export function EconBarChart({ location }: { location: string }) {
       endpoint="/api/economics"
       title={`Current Account Balance – ${location}`}
       location={location}
+      info="Difference between exports and imports of goods/services as % of GDP."
+      infoFn={(data) => {
+        const sorted = [...data].filter(d => d["Current Account Balance (% GDP)"] != null).sort((a, b) => b.year - a.year)
+        if (sorted.length === 0) return ""
+        const v = Number(sorted[0]["Current Account Balance (% GDP)"])
+        return `Latest: ${v > 0 ? "+" : ""}${v.toFixed(1)}% GDP`
+      }}
     >
       {(raw) => <BarContent raw={raw} />}
     </ChartCard>

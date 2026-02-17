@@ -146,6 +146,7 @@ export function DemographicScoreCard({ location }: { location: string }) {
         grade={{ letter: "", color: "", bgColor: "", summary: "" }}
         loading={loading}
         error={error}
+        info="Overall demographic health grade based on life expectancy, infant mortality, fertility, age structure, growth, and dependency."
       />
     )
   }
@@ -157,6 +158,7 @@ export function DemographicScoreCard({ location }: { location: string }) {
       grade={grade}
       loading={loading}
       error={error}
+      info="Overall demographic health grade based on life expectancy, infant mortality, fertility, age structure, growth, and dependency."
     />
   )
 }

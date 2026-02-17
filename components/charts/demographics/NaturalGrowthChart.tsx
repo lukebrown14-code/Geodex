@@ -26,8 +26,17 @@ export function NaturalGrowthChart({ location }: { location: string }) {
   return (
     <ChartCard<MedianData>
       endpoint="/api/demographics"
-      title={`Natural Growth Rate – ${location} (2010–2040)`}
+      title={`Natural Growth Rate – ${location} (2010\u20132040)`}
       location={location}
+      info="Birth rate vs death rate \u2014 the gap represents natural population growth."
+      infoFn={(data) => {
+        const valid = data
+          .filter(d => d.CBR != null && d.CDR != null)
+          .sort((a, b) => b.Time - a.Time)
+        if (valid.length === 0) return ""
+        const growth = Number(valid[0].CBR) - Number(valid[0].CDR)
+        return `Latest natural growth: ${growth > 0 ? "+" : ""}${growth.toFixed(1)} per 1,000`
+      }}
     >
       {(data) => <AreaContent data={data} />}
     </ChartCard>

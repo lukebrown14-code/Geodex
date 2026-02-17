@@ -20,6 +20,12 @@ export function PopulationPyramid({ location }: { location: string }) {
       title={`Population Pyramid – ${location}`}
       location={location}
       className="w-full"
+      info="Age and sex distribution of the population."
+      infoFn={(data) => {
+        const total = data.reduce((s, d) => s + d.PopMale + d.PopFemale, 0)
+        const totalStr = total >= 1000 ? `${(total / 1000).toFixed(1)}M` : `${total.toFixed(0)}K`
+        return `Total population: ${totalStr}`
+      }}
     >
       {(raw) => <PyramidContent raw={raw} />}
     </ChartCard>

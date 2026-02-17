@@ -32,6 +32,19 @@ export function DependencyPieChart({ location }: { location: string }) {
       endpoint="/api/population"
       title={`Dependency Ratio – ${location}`}
       location={location}
+      info="Population split into working-age, youth, and elderly segments."
+      infoFn={(data) => {
+        let working = 0, dependent = 0
+        for (const r of data) {
+          const p = r.PopMale + r.PopFemale
+          if (r.AgeGrp === "100+") { dependent += p; continue }
+          const age = Number(r.AgeGrp.split("-")[0])
+          if (age <= 15 || age >= 60) dependent += p
+          else working += p
+        }
+        if (working <= 0) return ""
+        return `Dependency ratio: ${((dependent / working) * 100).toFixed(0)}%`
+      }}
     >
       {(raw) => <PieContent raw={raw} />}
     </ChartCard>

@@ -19,6 +19,14 @@ export function PopulationDensityCard({ location }: { location: string }) {
       endpoint="/api/demographics"
       title={`Population Density – ${location}`}
       location={location}
+      info="Number of people per square kilometer."
+      infoFn={(data) => {
+        const latest = data.filter(d => d.PopDensity != null).sort((a, b) => b.Time - a.Time)[0]
+        if (!latest) return ""
+        const d = latest.PopDensity
+        const band = d < 10 ? "very low" : d < 50 ? "low" : d < 200 ? "moderate" : d < 500 ? "high" : "very high"
+        return `Density: ${d.toLocaleString(undefined, { maximumFractionDigits: 1 })} per km\u00B2 (${band})`
+      }}
     >
       {(raw) => <DensityContent raw={raw} />}
     </ChartCard>
