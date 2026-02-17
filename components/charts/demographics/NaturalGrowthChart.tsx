@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { useMemo } from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import { MedianData } from "@/types/demographics"
+import { useMemo } from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { MedianData } from "@/types/demographics";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "@/components/ui/chart"
-import { ChartCard } from "@/components/charts/ChartCard"
+} from "@/components/ui/chart";
+import { ChartCard } from "@/components/charts/ChartCard";
 
 const chartConfig = {
   cbr: {
@@ -20,7 +20,7 @@ const chartConfig = {
     label: "Death Rate",
     color: "var(--chart-3)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function NaturalGrowthChart({ location }: { location: string }) {
   return (
@@ -28,35 +28,36 @@ export function NaturalGrowthChart({ location }: { location: string }) {
       endpoint="/api/demographics"
       title={`Natural Growth Rate – ${location} (2010\u20132040)`}
       location={location}
-      info="Birth rate vs death rate \u2014 the gap represents natural population growth."
+      info="Birth rate vs death rate the gap represents natural population growth."
       infoFn={(data) => {
         const valid = data
-          .filter(d => d.CBR != null && d.CDR != null)
-          .sort((a, b) => b.Time - a.Time)
-        if (valid.length === 0) return ""
-        const growth = Number(valid[0].CBR) - Number(valid[0].CDR)
-        return `Latest natural growth: ${growth > 0 ? "+" : ""}${growth.toFixed(1)} per 1,000`
+          .filter((d) => d.CBR != null && d.CDR != null)
+          .sort((a, b) => b.Time - a.Time);
+        if (valid.length === 0) return "";
+        const growth = Number(valid[0].CBR) - Number(valid[0].CDR);
+        return `Latest natural growth: ${growth > 0 ? "+" : ""}${growth.toFixed(1)} per 1,000`;
       }}
     >
       {(data) => <AreaContent data={data} />}
     </ChartCard>
-  )
+  );
 }
 
 function AreaContent({ data }: { data: MedianData[] }) {
   const parsed = useMemo(
-    () => data
-      .filter((d) => Number(d.Time) >= 2010 && Number(d.Time) <= 2040)
-      .map((d) => ({
-        Time: d.Time,
-        CBR: Number(d.CBR),
-        CDR: Number(d.CDR),
-        growth: Number((Number(d.CBR) - Number(d.CDR)).toFixed(2)),
-      })),
+    () =>
+      data
+        .filter((d) => Number(d.Time) >= 2010 && Number(d.Time) <= 2040)
+        .map((d) => ({
+          Time: d.Time,
+          CBR: Number(d.CBR),
+          CDR: Number(d.CDR),
+          growth: Number((Number(d.CBR) - Number(d.CDR)).toFixed(2)),
+        })),
     [data],
-  )
+  );
 
-  const latest = parsed[parsed.length - 1]
+  const latest = parsed[parsed.length - 1];
 
   return (
     <>
@@ -81,8 +82,8 @@ function AreaContent({ data }: { data: MedianData[] }) {
             content={
               <ChartTooltipContent
                 formatter={(value, name) => {
-                  const label = name === "CBR" ? "Birth Rate" : "Death Rate"
-                  return `${label}: ${Number(value).toFixed(2)} per 1,000`
+                  const label = name === "CBR" ? "Birth Rate" : "Death Rate";
+                  return `${label}: ${Number(value).toFixed(2)} per 1,000`;
                 }}
               />
             }
@@ -108,18 +109,28 @@ function AreaContent({ data }: { data: MedianData[] }) {
       {latest && (
         <div className="mt-3 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full shrink-0" style={{ background: "var(--color-cbr)" }} />
+            <div
+              className="h-3 w-3 rounded-full shrink-0"
+              style={{ background: "var(--color-cbr)" }}
+            />
             <span>Births: {latest.CBR.toFixed(1)}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-3 w-3 rounded-full shrink-0" style={{ background: "var(--color-cdr)" }} />
+            <div
+              className="h-3 w-3 rounded-full shrink-0"
+              style={{ background: "var(--color-cdr)" }}
+            />
             <span>Deaths: {latest.CDR.toFixed(1)}</span>
           </div>
           <span className="text-muted-foreground">
-            Growth: <strong className="text-foreground">{latest.growth > 0 ? "+" : ""}{latest.growth.toFixed(1)}</strong>
+            Growth:{" "}
+            <strong className="text-foreground">
+              {latest.growth > 0 ? "+" : ""}
+              {latest.growth.toFixed(1)}
+            </strong>
           </span>
         </div>
       )}
     </>
-  )
+  );
 }
