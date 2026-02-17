@@ -91,25 +91,51 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
         {/* Top row on mobile: brand + toggle */}
         <div className="flex items-center justify-between sm:justify-start shrink-0">
-          <div>
-            <h1 className="text-sm font-semibold tracking-tight text-foreground leading-none">
-              Country Statistics
-            </h1>
-            <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
-              Demographic data explorer
-            </p>
+          <div className="flex items-center gap-3">
+            {/* Reticle / crosshair mark */}
+            <div className="relative h-6 w-6 flex items-center justify-center">
+              {/* Outer ring */}
+              <div className="absolute inset-0 rounded-full border border-chart-1/60" />
+              {/* Inner ring */}
+              <div className="absolute h-2 w-2 rounded-full border border-chart-1/80" />
+              {/* Center dot */}
+              <div className="absolute h-[3px] w-[3px] rounded-full bg-chart-1" />
+              {/* Tick marks */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[2px] w-[1px] h-[5px] bg-chart-1/70" />
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[2px] w-[1px] h-[5px] bg-chart-1/70" />
+              <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[2px] h-[1px] w-[5px] bg-chart-1/70" />
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-[2px] h-[1px] w-[5px] bg-chart-1/70" />
+            </div>
+
+            <div>
+              <h1 className="font-mono text-sm font-medium tracking-widest uppercase text-foreground leading-none">
+                GEODEX
+              </h1>
+              <p className="text-[10px] text-muted-foreground leading-tight mt-0.5 font-mono">
+                <span className="text-chart-1/50 select-none">{"//"} </span>
+                Country intelligence at a glance
+              </p>
+            </div>
           </div>
           <div className="sm:hidden">
             <ThemeToggle />
           </div>
         </div>
 
+        {/* Decorative separator — desktop only */}
+        <div className="hidden sm:flex items-center self-stretch py-1">
+          <div className="relative w-px h-full bg-border/60">
+            <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-[5px] h-[1px] bg-chart-1/40" />
+            <div className="absolute -bottom-[1px] left-1/2 -translate-x-1/2 w-[5px] h-[1px] bg-chart-1/40" />
+          </div>
+        </div>
+
         {/* Search — full width on mobile, centered on desktop */}
-        <div ref={wrapperRef} className="relative flex-1 max-w-md sm:mx-auto">
+        <div ref={wrapperRef} className="geodex-search-frame relative flex-1 max-w-md sm:mx-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground/60" />
           <input
             type="text"
-            placeholder="Search by country..."
+            placeholder="Query location..."
             value={location}
             onChange={(e) => {
               setLocation(e.target.value);
@@ -120,13 +146,13 @@ export function Header() {
               if (location.trim()) setShowDropdown(true);
             }}
             onKeyDown={handleKeyDown}
-            className="w-full pl-9 pr-16 py-2 text-sm rounded-lg bg-muted/50 text-foreground border border-border/50 placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-chart-1/30 focus:border-chart-1/40 transition-all"
+            className="w-full pl-9 pr-16 py-2 font-mono text-xs rounded-lg bg-muted/50 text-foreground border border-border/50 placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-chart-1/30 focus:border-chart-1/40 transition-all"
           />
           <button
             onClick={() => handleSearch(location)}
-            className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 bg-chart-1 text-white text-xs font-medium rounded-md hover:opacity-90 transition-opacity cursor-pointer"
+            className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 bg-chart-1 text-white font-mono text-[10px] tracking-wider uppercase font-medium rounded-md hover:opacity-90 transition-opacity cursor-pointer"
           >
-            Search
+            Query
           </button>
 
           {/* Autocomplete dropdown */}

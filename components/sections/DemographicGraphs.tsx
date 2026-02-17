@@ -22,10 +22,10 @@ export function DemographicGraphs({
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="col-span-full">
-          <h2 className="text-lg sm:text-xl font-semibold border-l-4 border-chart-1 pl-3 ">
-            Population Structure Analysis
+          <h2 className="font-mono text-sm tracking-wider uppercase border-l-4 border-chart-1 pl-3">
+            <span className="text-chart-1/50 select-none">// </span>Population Structure Analysis
           </h2>
-          <p className="text-muted-foreground text-sm mt-1 pl-3 ml-1">
+          <p className="font-mono text-xs text-muted-foreground mt-1 pl-3 ml-1">
             {searchedLocation} — age distribution and dependency metrics
           </p>
         </div>
@@ -51,10 +51,10 @@ export function DemographicGraphs({
         </div>
 
         <div className="col-span-full mt-4">
-          <h2 className="text-lg sm:text-xl font-semibold border-l-4 border-chart-2 pl-3">
-            Vital Reproduction Metrics
+          <h2 className="font-mono text-sm tracking-wider uppercase border-l-4 border-chart-2 pl-3">
+            <span className="text-chart-1/50 select-none">// </span>Vital Reproduction Metrics
           </h2>
-          <p className="text-muted-foreground text-sm mt-1 pl-3 ml-1">
+          <p className="font-mono text-xs text-muted-foreground mt-1 pl-3 ml-1">
             Fertility, mortality, and life expectancy trends
           </p>
         </div>

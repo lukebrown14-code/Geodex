@@ -39,7 +39,7 @@ export function ChartCard<T>({
   return (
     <Card className={`h-full ${className ?? ""}`}>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="font-mono text-xs tracking-wider uppercase">{title}</CardTitle>
         {info && (
           <CardAction>
             <Tooltip>
@@ -63,7 +63,13 @@ export function ChartCard<T>({
         )}
       </CardHeader>
       <CardContent>
-        {loading && <div className="animate-pulse bg-muted rounded h-50" />}
+        {loading && (
+          <div className="animate-pulse bg-muted rounded h-50 flex items-center justify-center">
+            <span className="font-mono text-[10px] text-muted-foreground/40 uppercase tracking-wider">
+              Loading dataset...
+            </span>
+          </div>
+        )}
         {error && <p className="text-red-500">Error: {error}</p>}
         {children(data)}
       </CardContent>

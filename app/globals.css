@@ -159,3 +159,22 @@
 .animate-tab-enter {
   animation: tabEnter 0.2s ease-out both;
 }
+
+.geodex-search-frame { position: relative; }
+.geodex-search-frame::before,
+.geodex-search-frame::after {
+  content: ''; position: absolute; width: 8px; height: 8px;
+  pointer-events: none; opacity: 0; transition: opacity 0.25s ease; z-index: 1;
+}
+.geodex-search-frame:focus-within::before,
+.geodex-search-frame:focus-within::after { opacity: 1; }
+.geodex-search-frame::before {
+  top: -1px; left: -1px;
+  border-top: 1.5px solid var(--chart-1); border-left: 1.5px solid var(--chart-1);
+  border-top-left-radius: 2px;
+}
+.geodex-search-frame::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 1.5px solid var(--chart-1); border-right: 1.5px solid var(--chart-1);
+  border-bottom-right-radius: 2px;
+}

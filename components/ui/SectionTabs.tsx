@@ -24,13 +24,14 @@ export function SectionTabs({ activeTab, onTabChange }: SectionTabsProps) {
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg cursor-pointer transition-all duration-200 ${
+            className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2 font-mono text-xs tracking-wider uppercase rounded-lg cursor-pointer transition-all duration-200 ${
               isActive
                 ? "bg-background shadow-sm border-b-2 border-chart-1 text-foreground"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
             <Icon className="h-4 w-4" />
+            {isActive && <span className="text-chart-1/40 select-none">//</span>}
             {tab.label}
           </button>
         );

@@ -16,7 +16,7 @@ export function ScoreCard({ title, indicators, grade, loading, error, info }: Sc
   return (
     <Card className="h-full col-span-full">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle className="font-mono text-xs tracking-wider uppercase">{title}</CardTitle>
         {info && (
           <CardAction>
             <Tooltip>
@@ -48,13 +48,13 @@ export function ScoreCard({ title, indicators, grade, loading, error, info }: Sc
                 style={{ borderColor: grade.color, backgroundColor: grade.bgColor }}
               >
                 <span
-                  className="text-4xl sm:text-5xl font-black tracking-tighter"
+                  className="font-mono text-4xl sm:text-5xl font-black tracking-tighter"
                   style={{ color: grade.color }}
                 >
                   {grade.letter}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground sm:mt-2 text-center sm:max-w-[120px]">
+              <p className="font-mono text-[10px] text-muted-foreground sm:mt-2 text-center sm:max-w-[120px]">
                 {grade.summary}
               </p>
             </div>
@@ -73,11 +73,11 @@ export function ScoreCard({ title, indicators, grade, loading, error, info }: Sc
                         className="h-2 w-2 rounded-full shrink-0"
                         style={{ backgroundColor: style.dot }}
                       />
-                      <span className="text-[11px] text-muted-foreground truncate">
+                      <span className="font-mono text-[10px] tracking-wider uppercase text-muted-foreground truncate">
                         {ind.label}
                       </span>
                     </div>
-                    <span className="text-sm font-semibold text-foreground">
+                    <span className="font-mono text-sm font-semibold text-foreground">
                       {ind.value}
                     </span>
                     <span className="text-[10px] text-muted-foreground leading-tight">

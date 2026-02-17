@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Country Statistics Dashboard",
-  description: "Population and demographic statistics by country",
+  title: "Geodex",
+  description: "Country intelligence at a glance",
 };
 
 export default function RootLayout({

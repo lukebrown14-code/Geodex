@@ -1,12 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Globe } from "lucide-react";
-
 import { DemographicGraphs } from "@/components/sections/DemographicGraphs";
 import { EconomicGraphs } from "@/components/sections/EconomicGraphs";
 
-import { DemographicScoreCard } from "@/components/charts/demographics/DemographicScoreCard";
 import { SectionTabs } from "@/components/ui/SectionTabs";
 import { Header } from "@/components/layout/Header";
 
@@ -38,13 +35,19 @@ export default function Home() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <Globe className="h-16 w-16 text-muted-foreground/40 mb-4" />
-            <h2 className="text-lg font-medium text-foreground/80">
-              No country selected
+            {/* CSS Reticle */}
+            <div className="relative h-12 w-12 mb-6">
+              <div className="absolute inset-0 rounded-full border border-muted-foreground/20" />
+              <div className="absolute inset-2 rounded-full border border-muted-foreground/10" />
+              <div className="absolute top-1/2 left-0 w-full h-px bg-muted-foreground/20" />
+              <div className="absolute left-1/2 top-0 h-full w-px bg-muted-foreground/20" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-1.5 w-1.5 rounded-full bg-chart-1/40" />
+            </div>
+            <h2 className="font-mono text-sm tracking-wider uppercase text-foreground/80">
+              No location selected
             </h2>
-            <p className="text-muted-foreground text-sm mt-1 max-w-sm">
-              Enter a country name in the search bar above to explore
-              demographic and vital statistics.
+            <p className="font-mono text-xs text-muted-foreground mt-2 max-w-sm">
+              <span className="text-chart-1/50 select-none">// </span>Query a country to begin analysis
             </p>
           </div>
         )}

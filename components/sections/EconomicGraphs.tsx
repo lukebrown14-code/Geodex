@@ -39,9 +39,12 @@ export function EconomicGraphs({
 
       {/* Row 5: Section header */}
       <div className="col-span-full animate-fade-in-up" style={{ animationDelay: "600ms" }}>
-        <h3 className="text-lg font-semibold text-foreground border-b border-border pb-2">
-          Fiscal &amp; Trade
+        <h3 className="font-mono text-sm tracking-wider uppercase border-l-4 border-chart-3 pl-3">
+          <span className="text-chart-1/50 select-none">// </span>Fiscal &amp; Trade
         </h3>
+        <p className="font-mono text-xs text-muted-foreground mt-1 pl-3 ml-1">
+          Government revenue, debt, and trade balance
+        </p>
       </div>
 
       {/* Row 6: Revenue vs Expense | Public Debt */}
