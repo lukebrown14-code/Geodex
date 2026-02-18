@@ -160,6 +160,14 @@
   animation: tabEnter 0.2s ease-out both;
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 .geodex-search-frame { position: relative; }
 .geodex-search-frame::before,
 .geodex-search-frame::after {

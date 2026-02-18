@@ -5,6 +5,7 @@ import { DemographicGraphs } from "@/components/sections/DemographicGraphs";
 import { EconomicGraphs } from "@/components/sections/EconomicGraphs";
 
 import { SectionTabs } from "@/components/ui/SectionTabs";
+import { CountryTabs } from "@/components/ui/CountryTabs";
 import { Header } from "@/components/layout/Header";
 
 import useLocationStore from "@/lib/store";
@@ -24,13 +25,16 @@ export default function Home() {
         {searchedLocation ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="col-span-full mt-2">
+              <CountryTabs />
+            </div>
+            <div className="col-span-full">
               <SectionTabs activeTab={activeTab} onTabChange={setActiveTab} />
             </div>
 
             {activeTab === "demographics" ? (
-              <DemographicGraphs searchedLocation={searchedLocation} />
+              <DemographicGraphs key={searchedLocation} searchedLocation={searchedLocation} />
             ) : (
-              <EconomicGraphs searchedLocation={searchedLocation} />
+              <EconomicGraphs key={searchedLocation} searchedLocation={searchedLocation} />
             )}
           </div>
         ) : (

@@ -24,6 +24,7 @@ export function Header() {
     const trimmed = value.trim();
     if (!trimmed) return;
     setSearchedLocation(trimmed.replace(/^./, trimmed[0].toUpperCase()));
+    setLocation("");
     setShowDropdown(false);
   }, [setSearchedLocation]);
 
