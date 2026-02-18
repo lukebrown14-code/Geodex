@@ -1,14 +1,10 @@
 # Country Statistics Dashboard
 
-An interactive demographic and economic data explorer that lets you search any country, compare it side-by-side with
-another, and instantly assess population and economic health through visualizations and a composite scoring system.
+This interactive demographic and economic data explorer allows you to search any country, compare it with another and instantly assess its population and economic health through visualisations and a composite scoring system.
 
 ## Purpose
 
-Understanding whether a country has healthy demographics requires looking beyond a single number. This dashboard brings
-together the key indicators — fertility, mortality, age structure, migration, density, GDP, inflation, debt, and more —
-into one view, grades them against established benchmarks, and lets you compare two countries side-by-side so you can
-quickly spot strengths and risks.
+To understand a country’s healthy demographics, it’s essential to look beyond a single statistic. This dashboard consolidates key indicators like fertility, mortality, age structure, migration, density, GDP, inflation, debt and more into a single view.  It then grades these indicators against established benchmarks and enables you to compare two countries side-by-side, helping you quickly identify their strengths and weaknesses.
 
 ## Features
 
