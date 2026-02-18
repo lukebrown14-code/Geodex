@@ -1,14 +1,10 @@
-# Country Statistics Dashboard
+# Geodex
 
-An interactive demographic and economic data explorer that lets you search any country, compare it side-by-side with
-another, and instantly assess population and economic health through visualizations and a composite scoring system.
+Geodex is a country intelligence dashboard for exploring the demographic and economic profile of any nation. Search a country, dive into its population structure, vital statistics, and fiscal health — then compare it side-by-side with another to spot strengths, risks, and trends at a glance.
 
 ## Purpose
 
-Understanding whether a country has healthy demographics requires looking beyond a single number. This dashboard brings
-together the key indicators — fertility, mortality, age structure, migration, density, GDP, inflation, debt, and more —
-into one view, grades them against established benchmarks, and lets you compare two countries side-by-side so you can
-quickly spot strengths and risks.
+A single statistic rarely tells the full story. Geodex pulls together the indicators that matter — fertility, mortality, age structure, migration, GDP, inflation, debt, and more — grades each against established benchmarks, and surfaces them in one coherent view. The result is a clear, honest picture of where a country stands and how it compares.
 
 ## Features
 
