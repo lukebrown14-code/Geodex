@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import { Info } from "lucide-react"
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
@@ -13,18 +16,21 @@ interface ScoreCardProps {
 }
 
 export function ScoreCard({ title, indicators, grade, loading, error, info }: ScoreCardProps) {
+  const [infoOpen, setInfoOpen] = useState(false);
+
   return (
     <Card className="h-full col-span-full">
       <CardHeader>
         <CardTitle className="font-mono text-xs tracking-wider uppercase">{title}</CardTitle>
         {info && (
           <CardAction>
-            <Tooltip>
+            <Tooltip open={infoOpen} onOpenChange={setInfoOpen}>
               <TooltipTrigger asChild>
                 <button
                   type="button"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="Score info"
+                  onClick={() => setInfoOpen((prev) => !prev)}
                 >
                   <Info className="h-4 w-4" />
                 </button>
