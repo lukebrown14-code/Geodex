@@ -66,10 +66,26 @@ export function ChartCard<T>({
       </CardHeader>
       <CardContent>
         {loading && (
-          <div className="animate-pulse bg-muted rounded h-50 flex items-center justify-center">
-            <span className="font-mono text-[10px] text-muted-foreground/40 uppercase tracking-wider">
-              Loading dataset...
-            </span>
+          <div className="animate-pulse h-50 flex flex-col justify-end gap-0">
+            {/* Fake chart area */}
+            <div className="flex-1 flex items-end gap-1.5 px-6 pt-4 pb-2">
+              <div className="h-[45%] flex-1 rounded-sm bg-muted" />
+              <div className="h-[70%] flex-1 rounded-sm bg-muted" />
+              <div className="h-[55%] flex-1 rounded-sm bg-muted" />
+              <div className="h-[85%] flex-1 rounded-sm bg-muted" />
+              <div className="h-[60%] flex-1 rounded-sm bg-muted" />
+              <div className="h-[40%] flex-1 rounded-sm bg-muted" />
+              <div className="h-[75%] flex-1 rounded-sm bg-muted" />
+              <div className="h-[50%] flex-1 rounded-sm bg-muted" />
+            </div>
+            {/* Fake X axis */}
+            <div className="h-px bg-muted mx-6" />
+            <div className="flex gap-3 px-6 pt-1.5">
+              <div className="h-2 w-8 rounded bg-muted" />
+              <div className="h-2 w-8 rounded bg-muted" />
+              <div className="h-2 w-8 rounded bg-muted" />
+              <div className="h-2 w-8 rounded bg-muted" />
+            </div>
           </div>
         )}
         {error && <p className="text-red-500">Error: {error}</p>}

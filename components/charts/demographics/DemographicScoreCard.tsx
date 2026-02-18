@@ -5,6 +5,7 @@ import { useApiData } from "@/hooks/useApiData"
 import { MedianData, PopulationRecord } from "@/types/demographics"
 import { type IndicatorResult, type Rating, computeGrade } from "@/lib/scoring"
 import { ScoreCard } from "@/components/charts/ScoreCard"
+import useLocationStore from "@/lib/store"
 
 /* ── Domain-specific rating functions ── */
 
@@ -97,53 +98,74 @@ function rateDependency(working: number, dependent: number): IndicatorResult {
   }
 }
 
+function computeDemoGrade(demoData: MedianData[], popData: PopulationRecord[]) {
+  if (demoData.length === 0) return null
+
+  const sorted = [...demoData]
+    .filter((d) => d.LEx != null)
+    .sort((a, b) => b.Time - a.Time)
+  const latest = sorted[0]
+  if (!latest) return null
+
+  let working = 0
+  let dependent = 0
+  for (const r of popData) {
+    const p = r.PopMale + r.PopFemale
+    if (r.AgeGrp === "100+") { dependent += p; continue }
+    const age = Number(r.AgeGrp.split("-")[0])
+    if (age <= 15 || age >= 60) dependent += p
+    else working += p
+  }
+
+  const indicators = [
+    rateLifeExpectancy(Number(latest.LEx)),
+    rateInfantMortality(Number(latest.InfantDeaths)),
+    rateTFR(Number(latest.TFR)),
+    rateMedianAge(Number(latest.MedianAgePop)),
+    rateNaturalGrowth(Number(latest.CBR), Number(latest.CDR)),
+    ...(working > 0 ? [rateDependency(working, dependent)] : []),
+  ]
+
+  return { indicators, grade: computeGrade(indicators) }
+}
+
 /* ── Component ── */
 
 export function DemographicScoreCard({ location }: { location: string }) {
+  const comparisonCountry = useLocationStore((s) => s.comparisonCountry)
+
   const params = useMemo(() => ({ location }), [location])
   const demo = useApiData<MedianData>("/api/demographics", params)
   const pop = useApiData<PopulationRecord>("/api/population", params)
 
+  const compParams = useMemo(
+    () => (comparisonCountry ? { location: comparisonCountry } : undefined),
+    [comparisonCountry],
+  )
+  const compDemo = useApiData<MedianData>("/api/demographics", compParams)
+  const compPop = useApiData<PopulationRecord>("/api/population", compParams)
+
   const loading = demo.loading || pop.loading
   const error = demo.error || pop.error
 
-  const { indicators, grade } = useMemo(() => {
-    if (demo.data.length === 0) return { indicators: [], grade: null }
+  const result = useMemo(
+    () => computeDemoGrade(demo.data, pop.data),
+    [demo.data, pop.data],
+  )
 
-    const sorted = [...demo.data]
-      .filter((d) => d.LEx != null)
-      .sort((a, b) => b.Time - a.Time)
-    const latest = sorted[0]
-    if (!latest) return { indicators: [], grade: null }
+  const compResult = useMemo(
+    () => (comparisonCountry ? computeDemoGrade(compDemo.data, compPop.data) : null),
+    [comparisonCountry, compDemo.data, compPop.data],
+  )
 
-    let working = 0
-    let dependent = 0
-    for (const r of pop.data) {
-      const p = r.PopMale + r.PopFemale
-      if (r.AgeGrp === "100+") { dependent += p; continue }
-      const age = Number(r.AgeGrp.split("-")[0])
-      if (age <= 15 || age >= 60) dependent += p
-      else working += p
-    }
+  const emptyGrade = { letter: "", color: "", bgColor: "", summary: "" }
 
-    const indicators = [
-      rateLifeExpectancy(Number(latest.LEx)),
-      rateInfantMortality(Number(latest.InfantDeaths)),
-      rateTFR(Number(latest.TFR)),
-      rateMedianAge(Number(latest.MedianAgePop)),
-      rateNaturalGrowth(Number(latest.CBR), Number(latest.CDR)),
-      ...(working > 0 ? [rateDependency(working, dependent)] : []),
-    ]
-
-    return { indicators, grade: computeGrade(indicators) }
-  }, [demo.data, pop.data])
-
-  if (!grade) {
+  if (!result?.grade) {
     return (
       <ScoreCard
         title={`Demographic Health Score — ${location}`}
         indicators={[]}
-        grade={{ letter: "", color: "", bgColor: "", summary: "" }}
+        grade={emptyGrade}
         loading={loading}
         error={error}
         info="Overall demographic health grade based on life expectancy, infant mortality, fertility, age structure, growth, and dependency."
@@ -154,11 +176,14 @@ export function DemographicScoreCard({ location }: { location: string }) {
   return (
     <ScoreCard
       title={`Demographic Health Score — ${location}`}
-      indicators={indicators}
-      grade={grade}
+      indicators={result.indicators}
+      grade={result.grade}
       loading={loading}
       error={error}
       info="Overall demographic health grade based on life expectancy, infant mortality, fertility, age structure, growth, and dependency."
+      comparisonGrade={compResult?.grade}
+      comparisonLabel={comparisonCountry ?? undefined}
+      primaryLabel={location}
     />
   )
 }

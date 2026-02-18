@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo } from "react"
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts"
 import {
   ChartContainer,
   ChartTooltip,
@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/chart"
 import { ChartCard } from "@/components/charts/ChartCard"
 import { MedianData } from "@/types/demographics"
+import useLocationStore from "@/lib/store"
+import { useApiData } from "@/hooks/useApiData"
 
 export function DemographicLineChart({ location, type }: { location: string, type: string }) {
   let graphTitle: string | undefined;
@@ -97,22 +99,82 @@ export function DemographicLineChart({ location, type }: { location: string, typ
       infoFn={infoFn}
     >
       {(data) => (
-        <LineContent data={data} dataKey={dataKey!} chartConfig={chartConfig} configKey={configKey} />
+        <LineContent
+          data={data}
+          dataKey={dataKey!}
+          chartConfig={chartConfig}
+          configKey={configKey}
+          primaryLabel={location}
+        />
       )}
     </ChartCard>
   )
 }
 
-function LineContent({ data, dataKey, chartConfig, configKey }: { data: MedianData[], dataKey: string, chartConfig: ChartConfig, configKey: string }) {
-  const parsed = useMemo(
-    () => data
-      .filter((d) => Number(d.Time) >= 2010 && Number(d.Time) <= 2040)
-      .map((d) => ({ ...d, [dataKey]: Number(d[dataKey as keyof MedianData]) })),
-    [data, dataKey],
+function LineContent({
+  data,
+  dataKey,
+  chartConfig,
+  configKey,
+  primaryLabel,
+}: {
+  data: MedianData[]
+  dataKey: string
+  chartConfig: ChartConfig
+  configKey: string
+  primaryLabel: string
+}) {
+  const comparisonCountry = useLocationStore((s) => s.comparisonCountry)
+
+  const compParams = useMemo(
+    () => (comparisonCountry ? { location: comparisonCountry } : undefined),
+    [comparisonCountry],
+  )
+  const { data: compData } = useApiData<MedianData>(
+    "/api/demographics",
+    compParams,
   )
 
+  const compKey = `comp_${dataKey}`
+
+  const parsed = useMemo(() => {
+    const primary = data
+      .filter((d) => Number(d.Time) >= 2010 && Number(d.Time) <= 2040)
+      .map((d) => ({
+        Time: Number(d.Time),
+        [dataKey]: Number(d[dataKey as keyof MedianData]),
+      }))
+
+    if (!comparisonCountry || compData.length === 0) return primary
+
+    const compMap = new Map<number, number>()
+    for (const d of compData) {
+      const t = Number(d.Time)
+      if (t >= 2010 && t <= 2040) {
+        compMap.set(t, Number(d[dataKey as keyof MedianData]))
+      }
+    }
+
+    return primary.map((d) => ({
+      ...d,
+      [compKey]: compMap.get(d.Time as number),
+    }))
+  }, [data, compData, dataKey, compKey, comparisonCountry])
+
+  const mergedConfig: ChartConfig = {
+    ...chartConfig,
+    ...(comparisonCountry
+      ? {
+          [compKey]: {
+            label: comparisonCountry,
+            color: "var(--chart-2)",
+          },
+        }
+      : {}),
+  }
+
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={mergedConfig}>
       <LineChart
         accessibilityLayer
         data={parsed}
@@ -140,16 +202,30 @@ function LineContent({ data, dataKey, chartConfig, configKey }: { data: MedianDa
         />
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent hideLabel />}
+          content={<ChartTooltipContent />}
         />
         <Line
           dataKey={dataKey}
+          name={primaryLabel}
           type="natural"
           stroke={`var(--color-${configKey})`}
           strokeWidth={2}
           dot={{ fill: `var(--color-${configKey})` }}
           activeDot={{ r: 6 }}
         />
+        {comparisonCountry && (
+          <Line
+            dataKey={compKey}
+            name={comparisonCountry}
+            type="natural"
+            stroke="var(--chart-2)"
+            strokeWidth={2}
+            strokeDasharray="5 5"
+            dot={{ fill: "var(--chart-2)" }}
+            activeDot={{ r: 6 }}
+          />
+        )}
+        {comparisonCountry && <Legend />}
       </LineChart>
     </ChartContainer>
   )

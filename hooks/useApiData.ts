@@ -13,6 +13,12 @@ export function useApiData<T>(
   const paramsKey = JSON.stringify(params ?? {});
 
   useEffect(() => {
+    if (!params) {
+      setData([]);
+      setLoading(false);
+      setError(null);
+      return;
+    }
     setLoading(true);
     const searchParams = new URLSearchParams(params);
 

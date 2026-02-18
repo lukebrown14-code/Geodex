@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Legend, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/chart";
 import { ChartCard } from "@/components/charts/ChartCard";
 import { EconomicData } from "@/types/economics";
+import useLocationStore from "@/lib/store";
+import { useApiData } from "@/hooks/useApiData";
 
 const TYPE_MAP: Record<
   string,
@@ -147,6 +149,7 @@ export function EconLineChart({
           chartConfig={chartConfig}
           configKey={meta.configKey}
           format={meta.format}
+          primaryLabel={location}
         />
       )}
     </ChartCard>
@@ -159,29 +162,70 @@ function LineContent({
   chartConfig,
   configKey,
   format,
+  primaryLabel,
 }: {
   data: EconomicData[];
   dataKey: string;
   chartConfig: ChartConfig;
   configKey: string;
   format?: (v: number) => string;
+  primaryLabel: string;
 }) {
-  const parsed = useMemo(
-    () =>
-      data
-        .filter((d) => d.year != null && d[dataKey as keyof EconomicData] != null)
-        .sort((a, b) => a.year - b.year)
-        .map((d) => {
-          const raw = d[dataKey as keyof EconomicData]
-          const val = typeof raw === "string" ? parseFloat(raw) : Number(raw)
-          return { year: d.year, [dataKey]: val }
-        })
-        .filter((d) => !isNaN(d[dataKey] as number)),
-    [data, dataKey],
+  const comparisonCountry = useLocationStore((s) => s.comparisonCountry);
+
+  const compParams = useMemo(
+    () => (comparisonCountry ? { location: comparisonCountry } : undefined),
+    [comparisonCountry],
+  );
+  const { data: compData } = useApiData<EconomicData>(
+    "/api/economics",
+    compParams,
   );
 
+  const compKey = `comp_${dataKey}`;
+
+  const parsed = useMemo(() => {
+    const primary = data
+      .filter((d) => d.year != null && d[dataKey as keyof EconomicData] != null)
+      .sort((a, b) => a.year - b.year)
+      .map((d) => {
+        const raw = d[dataKey as keyof EconomicData];
+        const val = typeof raw === "string" ? parseFloat(raw) : Number(raw);
+        return { year: d.year, [dataKey]: val };
+      })
+      .filter((d) => !isNaN(d[dataKey] as number));
+
+    if (!comparisonCountry || compData.length === 0) return primary;
+
+    const compMap = new Map<number, number>();
+    for (const d of compData) {
+      if (d.year != null && d[dataKey as keyof EconomicData] != null) {
+        const raw = d[dataKey as keyof EconomicData];
+        const val = typeof raw === "string" ? parseFloat(raw) : Number(raw);
+        if (!isNaN(val)) compMap.set(d.year, val);
+      }
+    }
+
+    return primary.map((d) => ({
+      ...d,
+      [compKey]: compMap.get(d.year as number),
+    }));
+  }, [data, compData, dataKey, compKey, comparisonCountry]);
+
+  const mergedConfig: ChartConfig = {
+    ...chartConfig,
+    ...(comparisonCountry
+      ? {
+          [compKey]: {
+            label: comparisonCountry,
+            color: "var(--chart-2)",
+          },
+        }
+      : {}),
+  };
+
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={mergedConfig}>
       <LineChart
         accessibilityLayer
         data={parsed}
@@ -213,16 +257,30 @@ function LineContent({
         />
         <ChartTooltip
           cursor={false}
-          content={<ChartTooltipContent hideLabel />}
+          content={<ChartTooltipContent />}
         />
         <Line
           dataKey={dataKey}
+          name={primaryLabel}
           type="natural"
           stroke={`var(--color-${configKey})`}
           strokeWidth={2}
           dot={{ fill: `var(--color-${configKey})` }}
           activeDot={{ r: 6 }}
         />
+        {comparisonCountry && (
+          <Line
+            dataKey={compKey}
+            name={comparisonCountry}
+            type="natural"
+            stroke="var(--chart-2)"
+            strokeWidth={2}
+            strokeDasharray="5 5"
+            dot={{ fill: "var(--chart-2)" }}
+            activeDot={{ r: 6 }}
+          />
+        )}
+        {comparisonCountry && <Legend />}
       </LineChart>
     </ChartContainer>
   );

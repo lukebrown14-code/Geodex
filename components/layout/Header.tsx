@@ -1,29 +1,63 @@
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { Search } from "lucide-react";
+import { Search, Clock } from "lucide-react";
 import useLocationStore from "@/lib/store";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useCountries } from "@/hooks/useCountries";
+import Fuse from "fuse.js";
+
+const RECENT_KEY = "geodex-recent";
+const MAX_RECENT = 5;
+
+function getRecentSearches(): string[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(RECENT_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentSearch(country: string) {
+  const recent = getRecentSearches().filter((c) => c !== country);
+  recent.unshift(country);
+  localStorage.setItem(RECENT_KEY, JSON.stringify(recent.slice(0, MAX_RECENT)));
+}
 
 export function Header() {
   const [location, setLocation] = useState("");
   const { setSearchedLocation } = useLocationStore();
   const { countries } = useCountries();
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
+  useEffect(() => {
+    setRecentSearches(getRecentSearches());
+  }, []);
+
+  const fuse = useMemo(
+    () => new Fuse(countries, { threshold: 0.4 }),
+    [countries],
+  );
+
   const filtered = location.trim()
-    ? countries.filter((c) =>
-        c.toLowerCase().includes(location.trim().toLowerCase())
-      ).slice(0, 50)
+    ? fuse.search(location.trim()).map((r) => r.item).slice(0, 50)
     : [];
+
+  const showRecent = !location.trim() && recentSearches.length > 0;
+  const dropdownItems = showRecent ? recentSearches : filtered;
 
   const handleSearch = useCallback((value: string) => {
     const trimmed = value.trim();
     if (!trimmed) return;
-    setSearchedLocation(trimmed.replace(/^./, trimmed[0].toUpperCase()));
+    const formatted = trimmed.replace(/^./, trimmed[0].toUpperCase());
+    setSearchedLocation(formatted);
+    saveRecentSearch(formatted);
+    setRecentSearches(getRecentSearches());
     setLocation("");
     setShowDropdown(false);
   }, [setSearchedLocation]);
@@ -34,7 +68,7 @@ export function Header() {
   }, [handleSearch]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!showDropdown || filtered.length === 0) {
+    if (!showDropdown || dropdownItems.length === 0) {
       if (e.key === "Enter") handleSearch(location);
       return;
     }
@@ -43,19 +77,19 @@ export function Header() {
       case "ArrowDown":
         e.preventDefault();
         setHighlightIndex((prev) =>
-          prev < filtered.length - 1 ? prev + 1 : 0
+          prev < dropdownItems.length - 1 ? prev + 1 : 0
         );
         break;
       case "ArrowUp":
         e.preventDefault();
         setHighlightIndex((prev) =>
-          prev > 0 ? prev - 1 : filtered.length - 1
+          prev > 0 ? prev - 1 : dropdownItems.length - 1
         );
         break;
       case "Enter":
         e.preventDefault();
-        if (highlightIndex >= 0 && highlightIndex < filtered.length) {
-          selectCountry(filtered[highlightIndex]);
+        if (highlightIndex >= 0 && highlightIndex < dropdownItems.length) {
+          selectCountry(dropdownItems[highlightIndex]);
         } else {
           handleSearch(location);
         }
@@ -71,7 +105,12 @@ export function Header() {
   useEffect(() => {
     if (highlightIndex >= 0 && listRef.current) {
       const item = listRef.current.children[highlightIndex] as HTMLElement;
-      item?.scrollIntoView({ block: "nearest" });
+      if (!item) return;
+      // account for header element offset
+      const headerEl = listRef.current.querySelector("[data-recent-header]");
+      const actualIndex = headerEl ? highlightIndex + 1 : highlightIndex;
+      const el = listRef.current.children[actualIndex] as HTMLElement;
+      el?.scrollIntoView({ block: "nearest" });
     }
   }, [highlightIndex]);
 
@@ -143,9 +182,7 @@ export function Header() {
               setShowDropdown(true);
               setHighlightIndex(-1);
             }}
-            onFocus={() => {
-              if (location.trim()) setShowDropdown(true);
-            }}
+            onFocus={() => setShowDropdown(true)}
             onKeyDown={handleKeyDown}
             className="w-full pl-9 pr-16 py-2 font-mono text-xs rounded-lg bg-muted/50 text-foreground border border-border/50 placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-chart-1/30 focus:border-chart-1/40 transition-all"
           />
@@ -156,13 +193,22 @@ export function Header() {
             Query
           </button>
 
-          {/* Autocomplete dropdown */}
-          {showDropdown && filtered.length > 0 && (
+          {/* Autocomplete / recent dropdown */}
+          {showDropdown && dropdownItems.length > 0 && (
             <ul
               ref={listRef}
               className="absolute left-0 right-0 top-full mt-1 max-h-56 overflow-y-auto rounded-lg border border-border/60 bg-background shadow-lg z-50"
             >
-              {filtered.map((country, i) => (
+              {showRecent && (
+                <li
+                  data-recent-header
+                  className="px-3 py-1.5 font-mono text-[10px] tracking-wider uppercase text-muted-foreground/60 select-none flex items-center gap-1.5"
+                >
+                  <Clock className="h-3 w-3" />
+                  Recent
+                </li>
+              )}
+              {dropdownItems.map((country, i) => (
                 <li
                   key={country}
                   onMouseDown={(e) => {
