@@ -10,7 +10,7 @@ export function Footer() {
         </span>
         <span className="text-border">|</span>
         <a
-          href="https://github.com/lukebrown14-code/Countries-Statistics-Dashboard"
+          href="https://github.com/lukebrown14-code/Geodex"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 font-mono text-xs tracking-wider hover:text-foreground transition-colors"
