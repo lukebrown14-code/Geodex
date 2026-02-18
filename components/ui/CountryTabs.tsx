@@ -1,6 +1,6 @@
 "use client";
 
-import { Globe, X, GitCompareArrows } from "lucide-react";
+import { Globe, X } from "lucide-react";
 import useLocationStore from "@/lib/store";
 
 export function CountryTabs() {
@@ -16,8 +16,10 @@ export function CountryTabs() {
 
   if (openCountries.length === 0) return null;
 
+  const hasMultipleTabs = openCountries.length > 1;
+
   return (
-    <div className="scrollbar-hide overflow-x-auto">
+    <div className="scrollbar-hide overflow-x-auto space-y-2">
       <div className="inline-flex w-full sm:w-auto bg-muted/50 border border-border/50 rounded-xl p-1 gap-1">
         {openCountries.map((country) => {
           const isActive = activeCountry === country;
@@ -43,8 +45,8 @@ export function CountryTabs() {
               )}
               {country}
 
-              {/* Compare button — shown on non-active, non-comparison tabs */}
-              {!isActive && !isComparison && openCountries.length > 1 && (
+              {/* VS pill — always visible on inactive, non-comparison tabs */}
+              {!isActive && !isComparison && hasMultipleTabs && (
                 <span
                   role="button"
                   onClick={(e) => {
@@ -52,9 +54,9 @@ export function CountryTabs() {
                     setComparisonCountry(country);
                   }}
                   title={`Compare with ${country}`}
-                  className="ml-0.5 p-0.5 rounded hover:bg-chart-2/20 hover:text-chart-2 transition-colors opacity-0 group-hover:opacity-60 hover:!opacity-100 sm:opacity-0 max-sm:opacity-60"
+                  className="ml-0.5 px-1.5 py-0.5 rounded-full bg-chart-2/15 text-chart-2 font-mono text-[10px] font-semibold tracking-widest leading-none opacity-70 hover:opacity-100 hover:bg-chart-2/25 transition-all"
                 >
-                  <GitCompareArrows className="h-3 w-3" />
+                  VS
                 </span>
               )}
 
@@ -92,6 +94,43 @@ export function CountryTabs() {
           );
         })}
       </div>
+
+      {/* Hint bar — visible when 2+ tabs open and no comparison active */}
+      {hasMultipleTabs && !comparisonCountry && (
+        <div className="font-mono text-[11px] tracking-wider uppercase text-muted-foreground/50 px-1 select-none">
+          // click <span className="text-chart-2/70">VS</span> on any tab to
+          compare with{" "}
+          <span className="text-foreground/60">{activeCountry}</span>
+        </div>
+      )}
+
+    </div>
+  );
+}
+
+export function ComparisonStatusBar() {
+  const { activeCountry, comparisonCountry, clearComparison } =
+    useLocationStore();
+
+  if (!comparisonCountry) return null;
+
+  return (
+    <div className="inline-flex items-center gap-2 font-mono text-[11px] tracking-wider uppercase px-1 select-none">
+      <span className="flex items-center gap-1.5">
+        <span className="h-2 w-2 rounded-full bg-chart-1" />
+        <span className="text-foreground/80">{activeCountry}</span>
+      </span>
+      <span className="text-muted-foreground/40">vs</span>
+      <span className="flex items-center gap-1.5">
+        <span className="h-2 w-2 rounded-full bg-chart-2" />
+        <span className="text-foreground/80">{comparisonCountry}</span>
+      </span>
+      <button
+        onClick={clearComparison}
+        className="ml-1 px-1.5 py-0.5 rounded text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+      >
+        &times; Clear
+      </button>
     </div>
   );
 }
