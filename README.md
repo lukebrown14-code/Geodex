@@ -1,15 +1,20 @@
 # Country Statistics Dashboard
 
-An interactive demographic data explorer that lets you search any country and instantly assess the health of its
-population through visualizations and a composite scoring system.
+An interactive demographic and economic data explorer that lets you search any country, compare it side-by-side with
+another, and instantly assess population and economic health through visualizations and a composite scoring system.
 
 ## Purpose
 
 Understanding whether a country has healthy demographics requires looking beyond a single number. This dashboard brings
-together the key indicators — fertility, mortality, age structure, migration, and density — into one view, and grades
-them against established benchmarks so you can quickly spot strengths and risks.
+together the key indicators — fertility, mortality, age structure, migration, density, GDP, inflation, debt, and more —
+into one view, grades them against established benchmarks, and lets you compare two countries side-by-side so you can
+quickly spot strengths and risks.
 
 ## Features
+
+### Multi-Country Tabs & Comparison
+
+Open multiple countries as tabs — each tab persists so you can switch between them instantly. When two or more tabs are open, a **VS** pill appears on inactive tabs. Click it to activate a side-by-side comparison: charts overlay both datasets using colour-coded series, and the health score cards display both countries' indicators and grades together. A status bar below the tabs shows the active comparison and provides a one-click clear button.
 
 ### Country Search with Autocomplete
 
@@ -121,4 +126,4 @@ Open [http://localhost:3000](http://localhost:3000) and search for a country.
 
 ## Todo
 
-- Add compare tool. So you can compare to countries side by side
+- Add more economic data sources
