@@ -7,6 +7,7 @@ import { EconomicGraphs } from "@/components/sections/EconomicGraphs";
 import { SectionTabs } from "@/components/ui/SectionTabs";
 import { CountryTabs } from "@/components/ui/CountryTabs";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 import useLocationStore from "@/lib/store";
 
@@ -56,6 +57,8 @@ export default function Home() {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }
