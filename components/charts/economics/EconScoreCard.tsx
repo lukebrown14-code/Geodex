@@ -158,6 +158,7 @@ export function EconScoreCard({ location }: { location: string }) {
       error={error}
       info="Overall economic health grade based on GDP growth, income level, inflation, unemployment, debt, and trade balance."
       comparisonGrade={compResult?.grade}
+      comparisonIndicators={compResult?.indicators}
       comparisonLabel={comparisonCountry ?? undefined}
       primaryLabel={location}
     />

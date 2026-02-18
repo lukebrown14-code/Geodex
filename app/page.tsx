@@ -5,7 +5,7 @@ import { DemographicGraphs } from "@/components/sections/DemographicGraphs";
 import { EconomicGraphs } from "@/components/sections/EconomicGraphs";
 
 import { SectionTabs } from "@/components/ui/SectionTabs";
-import { CountryTabs, ComparisonStatusBar } from "@/components/ui/CountryTabs";
+import { CountryTabs } from "@/components/ui/CountryTabs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -27,9 +27,6 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="col-span-full mt-2">
               <CountryTabs />
-            </div>
-            <div className="col-span-full">
-              <ComparisonStatusBar />
             </div>
             <div className="col-span-full">
               <SectionTabs activeTab={activeTab} onTabChange={setActiveTab} />

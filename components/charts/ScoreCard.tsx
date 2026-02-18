@@ -14,11 +14,12 @@ interface ScoreCardProps {
   error?: string | null
   info?: string
   comparisonGrade?: Grade | null
+  comparisonIndicators?: IndicatorResult[] | null
   comparisonLabel?: string
   primaryLabel?: string
 }
 
-export function ScoreCard({ title, indicators, grade, loading, error, info, comparisonGrade, comparisonLabel, primaryLabel }: ScoreCardProps) {
+export function ScoreCard({ title, indicators, grade, loading, error, info, comparisonGrade, comparisonIndicators, comparisonLabel, primaryLabel }: ScoreCardProps) {
   const [infoOpen, setInfoOpen] = useState(false);
 
   return (
@@ -122,6 +123,8 @@ export function ScoreCard({ title, indicators, grade, loading, error, info, comp
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 flex-1">
               {indicators.map((ind) => {
                 const style = RATING_STYLES[ind.rating]
+                const compInd = comparisonIndicators?.find((c) => c.label === ind.label)
+                const compStyle = compInd ? RATING_STYLES[compInd.rating] : null
                 return (
                   <div
                     key={ind.label}
@@ -142,6 +145,27 @@ export function ScoreCard({ title, indicators, grade, loading, error, info, comp
                     <span className="text-[10px] text-muted-foreground leading-tight">
                       {ind.detail}
                     </span>
+
+                    {/* Comparison country value */}
+                    {compInd && compStyle && (
+                      <div className="mt-1 pt-1.5 border-t border-dashed border-border/50">
+                        <div className="flex items-center gap-1.5">
+                          <div
+                            className="h-1.5 w-1.5 rounded-full shrink-0"
+                            style={{ backgroundColor: compStyle.dot }}
+                          />
+                          <span className="font-mono text-[10px] text-chart-2/70 truncate">
+                            {comparisonLabel}
+                          </span>
+                        </div>
+                        <span className="font-mono text-xs font-semibold text-foreground/70">
+                          {compInd.value}
+                        </span>
+                        <p className="text-[10px] text-muted-foreground/60 leading-tight">
+                          {compInd.detail}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )
               })}

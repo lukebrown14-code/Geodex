@@ -182,6 +182,7 @@ export function DemographicScoreCard({ location }: { location: string }) {
       error={error}
       info="Overall demographic health grade based on life expectancy, infant mortality, fertility, age structure, growth, and dependency."
       comparisonGrade={compResult?.grade}
+      comparisonIndicators={compResult?.indicators}
       comparisonLabel={comparisonCountry ?? undefined}
       primaryLabel={location}
     />

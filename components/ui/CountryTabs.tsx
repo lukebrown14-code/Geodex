@@ -19,8 +19,9 @@ export function CountryTabs() {
   const hasMultipleTabs = openCountries.length > 1;
 
   return (
-    <div className="scrollbar-hide overflow-x-auto space-y-2">
-      <div className="inline-flex w-full sm:w-auto bg-muted/50 border border-border/50 rounded-xl p-1 gap-1">
+    <div className="flex flex-col gap-2">
+      <div className="scrollbar-hide overflow-x-auto">
+        <div className="inline-flex w-full sm:w-auto bg-muted/50 border border-border/50 rounded-xl p-1 gap-1">
         {openCountries.map((country) => {
           const isActive = activeCountry === country;
           const isComparison = comparisonCountry === country;
@@ -93,6 +94,7 @@ export function CountryTabs() {
             </button>
           );
         })}
+        </div>
       </div>
 
       {/* Hint bar — visible when 2+ tabs open and no comparison active */}
@@ -104,33 +106,27 @@ export function CountryTabs() {
         </div>
       )}
 
-    </div>
-  );
-}
+      {/* Active comparison status bar — replaces hint when comparison is active */}
+      {comparisonCountry && (
+        <div className="inline-flex items-center gap-2 font-mono text-[11px] tracking-wider uppercase px-1 select-none">
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-chart-1" />
+            <span className="text-foreground/80">{activeCountry}</span>
+          </span>
+          <span className="text-muted-foreground/40">vs</span>
+          <span className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-chart-2" />
+            <span className="text-foreground/80">{comparisonCountry}</span>
+          </span>
+          <button
+            onClick={clearComparison}
+            className="ml-1 px-1.5 py-0.5 rounded text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
+          >
+            &times; Clear
+          </button>
+        </div>
+      )}
 
-export function ComparisonStatusBar() {
-  const { activeCountry, comparisonCountry, clearComparison } =
-    useLocationStore();
-
-  if (!comparisonCountry) return null;
-
-  return (
-    <div className="inline-flex items-center gap-2 font-mono text-[11px] tracking-wider uppercase px-1 select-none">
-      <span className="flex items-center gap-1.5">
-        <span className="h-2 w-2 rounded-full bg-chart-1" />
-        <span className="text-foreground/80">{activeCountry}</span>
-      </span>
-      <span className="text-muted-foreground/40">vs</span>
-      <span className="flex items-center gap-1.5">
-        <span className="h-2 w-2 rounded-full bg-chart-2" />
-        <span className="text-foreground/80">{comparisonCountry}</span>
-      </span>
-      <button
-        onClick={clearComparison}
-        className="ml-1 px-1.5 py-0.5 rounded text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 transition-colors cursor-pointer"
-      >
-        &times; Clear
-      </button>
     </div>
   );
 }
