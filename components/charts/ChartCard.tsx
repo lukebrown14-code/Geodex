@@ -37,6 +37,12 @@ export function ChartCard<T>({
     [infoFn, data],
   );
 
+  // Call children when not loading/errored; if they return null it means no plottable data
+  const chartContent = !loading && !error ? children(data) : null;
+
+  // Hide the card entirely when loading has completed and there's nothing to show
+  if (!loading && !error && chartContent == null) return null;
+
   return (
     <Card className={`h-full ${className ?? ""}`}>
       <CardHeader>
@@ -89,7 +95,7 @@ export function ChartCard<T>({
           </div>
         )}
         {error && <p className="text-red-500">Error: {error}</p>}
-        {children(data)}
+        {chartContent}
       </CardContent>
     </Card>
   );

@@ -70,6 +70,19 @@ export function ScoreCard({ title, indicators, grade, loading, error, info, comp
           </div>
         )}
         {error && <p className="text-red-500">Error: {error}</p>}
+        {!loading && !error && indicators.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <div className="relative h-8 w-8 mb-3 opacity-30">
+              <div className="absolute inset-0 rounded-full border border-muted-foreground" />
+              <div className="absolute top-1/2 left-0 w-full h-px bg-muted-foreground" />
+              <div className="absolute left-1/2 top-0 h-full w-px bg-muted-foreground" />
+            </div>
+            <p className="font-mono text-xs tracking-wider uppercase text-muted-foreground">No data available</p>
+            <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">
+              <span className="select-none">// </span>No records found for this location
+            </p>
+          </div>
+        )}
         {indicators.length > 0 && (
           <div className="flex gap-4 sm:gap-6 flex-col sm:flex-row">
             {/* Grade circle(s) */}

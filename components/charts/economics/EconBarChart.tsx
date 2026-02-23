@@ -53,6 +53,8 @@ function BarContent({ raw }: { raw: EconomicData[] }) {
     [raw],
   )
 
+  if (data.length === 0) return null;
+
   return (
     <>
       <ChartContainer config={chartConfig}>

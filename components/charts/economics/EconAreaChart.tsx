@@ -62,6 +62,8 @@ function AreaContent({ data }: { data: EconomicData[] }) {
     [data],
   )
 
+  if (parsed.length === 0) return null;
+
   const latest = parsed[parsed.length - 1]
 
   return (

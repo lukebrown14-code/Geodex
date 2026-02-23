@@ -1,26 +1,42 @@
 # Geodex
 
-Geodex is a country intelligence dashboard for exploring the demographic and economic profile of any nation. Search a country, dive into its population structure, vital statistics, and fiscal health — then compare it side-by-side with another to spot strengths, risks, and trends at a glance.
+Geodex is a country intelligence dashboard for exploring the demographic and
+economic profile of any nation. Search a country, dive into its population
+structure, vital statistics, and fiscal health — then compare it side-by-side
+with another to spot strengths, risks, and trends at a glance.
 
 ## Purpose
 
-A single statistic rarely tells the full story. Geodex pulls together the indicators that matter — fertility, mortality, age structure, migration, GDP, inflation, debt, and more — grades each against established benchmarks, and surfaces them in one coherent view. The result is a clear, honest picture of where a country stands and how it compares.
+A single statistic rarely tells the full story. Geodex pulls together the
+indicators that matter — fertility, mortality, age structure, migration, GDP,
+inflation, debt, and more — grades each against established benchmarks, and
+surfaces them in one coherent view. The result is a clear, honest picture of
+where a country stands and how it compares.
 
 ## Features
 
 ### Multi-Country Tabs & Comparison
 
-Open multiple countries as tabs — each tab persists so you can switch between them instantly. When two or more tabs are open, a **VS** pill appears on inactive tabs. Click it to activate a side-by-side comparison: charts overlay both datasets using colour-coded series, and the health score cards display both countries' indicators and grades together. A status bar below the tabs shows the active comparison and provides a one-click clear button.
+Open multiple countries as tabs — each tab persists so you can switch between
+them instantly. When two or more tabs are open, a **VS** pill appears on
+inactive tabs. Click it to activate a side-by-side comparison: charts overlay
+both datasets using colour-coded series, and the health score cards display both
+countries' indicators and grades together. A status bar below the tabs shows the
+active comparison and provides a one-click clear button.
 
 ### Country Search with Autocomplete
 
-Start typing a country name and an autocomplete dropdown appears with matching results. Navigate suggestions with arrow keys, select with Enter or click, and dismiss with Escape. The dropdown uses a substring match so typing "land" will surface Iceland, Ireland, Finland, etc.
+Start typing a country name and an autocomplete dropdown appears with matching
+results. Navigate suggestions with arrow keys, select with Enter or click, and
+dismiss with Escape. The dropdown uses a substring match so typing "land" will
+surface Iceland, Ireland, Finland, etc.
 
 ### Demographic Health Score
 
-Each country receives an overall grade (A through F) based on six indicators scored against international benchmarks.
-Both extremes are penalized — a fertility rate of 1.1 is just as concerning as 6.0. Each indicator shows a traffic light
-(green/yellow/red) with a plain-English explanation.
+Each country receives an overall grade (A through F) based on six indicators
+scored against international benchmarks. Both extremes are penalized — a
+fertility rate of 1.1 is just as concerning as 6.0. Each indicator shows a
+traffic light (green/yellow/red) with a plain-English explanation.
 
 | Indicator                 | Healthy     | Warning            | Unhealthy    |
 | ------------------------- | ----------- | ------------------ | ------------ |
@@ -49,17 +65,18 @@ Both extremes are penalized — a fertility rate of 1.1 is just as concerning as
 
 ### Economic Health Score
 
-Each country receives an overall economic grade (A through F) based on six indicators scored against established benchmarks.
-Each indicator shows a traffic light (green/yellow/red) with a plain-English explanation.
+Each country receives an overall economic grade (A through F) based on six
+indicators scored against established benchmarks. Each indicator shows a traffic
+light (green/yellow/red) with a plain-English explanation.
 
-| Indicator                  | Healthy        | Warning              | Unhealthy       |
-| -------------------------- | -------------- | -------------------- | --------------- |
-| GDP Growth (% annual)      | >2%            | 0–2%                 | <0%             |
-| GDP per Capita (USD)       | $20,000+       | $5,000–$20,000       | <$5,000         |
-| Inflation (CPI %)          | 1–3%           | 0–1% or 3–6%         | <0% or 6%+      |
-| Unemployment Rate (%)      | <5%            | 5–10%                | 10%+            |
-| Public Debt (% of GDP)     | <60%           | 60–90%               | 90%+            |
-| Current Account (% of GDP) | Surplus (>0%)  | Mild deficit (0–-3%) | Deficit (<-3%)  |
+| Indicator                  | Healthy       | Warning              | Unhealthy      |
+| -------------------------- | ------------- | -------------------- | -------------- |
+| GDP Growth (% annual)      | >2%           | 0–2%                 | <0%            |
+| GDP per Capita (USD)       | $20,000+      | $5,000–$20,000       | <$5,000        |
+| Inflation (CPI %)          | 1–3%          | 0–1% or 3–6%         | <0% or 6%+     |
+| Unemployment Rate (%)      | <5%           | 5–10%                | 10%+           |
+| Public Debt (% of GDP)     | <60%          | 60–90%               | 90%+           |
+| Current Account (% of GDP) | Surplus (>0%) | Mild deficit (0–-3%) | Deficit (<-3%) |
 
 ### Economic Indicators
 
@@ -83,7 +100,8 @@ stored in Supabase with two tables:
 
 - **Pop5YearGroup** — population by 5-year age group and sex (2026)
 - **DemographicIndicators** — time-series demographic metrics (all years)
-- **WBD** — World Bank economic indicators (GDP, inflation, unemployment, debt, trade)
+- **WBD** — World Bank economic indicators (GDP, inflation, unemployment, debt,
+  trade)
 
 ## Tech Stack
 
@@ -119,6 +137,33 @@ Open [http://localhost:3000](http://localhost:3000) and search for a country.
 - [Population Pyramids — Types Guide](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)
 - [OECD — Health at a Glance 2025](https://www.oecd.org/en/publications/health-at-a-glance-2025_8f9e3f98-en.html)
 - [World Bank — Development Indicators](https://data.worldbank.org/indicator)
+
+## Countries with Missing Data
+
+| country                          | found_in                   |
+| -------------------------------- | -------------------------- |
+| Channel Islands                  | WBD only                   |
+| Western Sahara                   | DemographicIndicators only |
+| Saint Pierre and Miquelon        | DemographicIndicators only |
+| Guadeloupe                       | DemographicIndicators only |
+| Guernsey                         | DemographicIndicators only |
+| Saint Barthélemy                 | DemographicIndicators only |
+| Saint Helena                     | DemographicIndicators only |
+| Wallis and Futuna Islands        | DemographicIndicators only |
+| Cook Islands                     | DemographicIndicators only |
+| China, Taiwan Province of China  | DemographicIndicators only |
+| Anguilla                         | DemographicIndicators only |
+| Jersey                           | DemographicIndicators only |
+| Falkland Islands (Malvinas)      | DemographicIndicators only |
+| Bonaire, Sint Eustatius and Saba | DemographicIndicators only |
+| Mayotte                          | DemographicIndicators only |
+| Holy See                         | DemographicIndicators only |
+| Martinique                       | DemographicIndicators only |
+| Tokelau                          | DemographicIndicators only |
+| Niue                             | DemographicIndicators only |
+| Réunion                          | DemographicIndicators only |
+| French Guiana                    | DemographicIndicators only |
+| Montserrat                       | DemographicIndicators only |
 
 ## Todo
 

@@ -195,6 +195,8 @@ function LineContent({
       })
       .filter((d) => !isNaN(d[dataKey] as number));
 
+    if (primary.length === 0) return primary;
+
     if (!comparisonCountry || compData.length === 0) return primary;
 
     const compMap = new Map<number, number>();
@@ -211,6 +213,8 @@ function LineContent({
       [compKey]: compMap.get(d.year as number),
     }));
   }, [data, compData, dataKey, compKey, comparisonCountry]);
+
+  if (parsed.length === 0) return null;
 
   const mergedConfig: ChartConfig = {
     ...chartConfig,

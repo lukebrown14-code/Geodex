@@ -7,7 +7,7 @@ export function useApiData<T>(
   params?: Record<string, string>,
 ): { data: T[]; loading: boolean; error: string | null } {
   const [data, setData] = useState<T[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(params !== undefined);
   const [error, setError] = useState<string | null>(null);
 
   const paramsKey = JSON.stringify(params ?? {});
