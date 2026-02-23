@@ -1,3 +1,5 @@
+"use client"
+
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Search, Clock } from "lucide-react";
 import useLocationStore from "@/lib/store";
@@ -216,11 +218,10 @@ export function Header() {
                     selectCountry(country);
                   }}
                   onMouseEnter={() => setHighlightIndex(i)}
-                  className={`px-3 py-2 text-sm cursor-pointer transition-colors ${
-                    i === highlightIndex
+                  className={`px-3 py-2 text-sm cursor-pointer transition-colors ${i === highlightIndex
                       ? "bg-chart-1/10 text-foreground"
                       : "text-muted-foreground hover:bg-muted/50"
-                  }`}
+                    }`}
                 >
                   {country}
                 </li>

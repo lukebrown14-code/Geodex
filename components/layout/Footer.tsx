@@ -1,3 +1,6 @@
+"use client"
+
+import Link from "next/link";
 import { GitBranch } from "lucide-react";
 
 export function Footer() {
@@ -8,6 +11,13 @@ export function Footer() {
           <span className="text-chart-1/50 select-none">// </span>
           GEODEX
         </span>
+        <span className="text-border">|</span>
+        <Link
+          href="/about"
+          className="font-mono text-xs tracking-wider hover:text-foreground transition-colors"
+        >
+          About
+        </Link>
         <span className="text-border">|</span>
         <a
           href="https://github.com/lukebrown14-code/Geodex"
