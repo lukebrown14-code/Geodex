@@ -160,6 +160,19 @@
   animation: tabEnter 0.2s ease-out both;
 }
 
+@keyframes reticlePulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(1.08); }
+}
+@keyframes scanline {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(600%); opacity: 0; }
+}
+.animate-reticle-pulse { animation: reticlePulse 3s ease-in-out infinite; }
+.animate-scanline       { animation: scanline 4s linear infinite; }
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
