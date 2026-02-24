@@ -28,15 +28,14 @@ active comparison and provides a one-click clear button.
 
 Start typing a country name and an autocomplete dropdown appears with matching
 results. Navigate suggestions with arrow keys, select with Enter or click, and
-dismiss with Escape. The dropdown uses a substring match so typing "land" will
-surface Iceland, Ireland, Finland, etc.
+dismiss with Escape. Recent searches are saved locally for quick access.
 
 ### Demographic Health Score
 
 Each country receives an overall grade (A through F) based on six indicators
-scored against international benchmarks. Both extremes are penalized — a
+scored against international benchmarks. Both extremes are penalised — a
 fertility rate of 1.1 is just as concerning as 6.0. Each indicator shows a
-traffic light (green/yellow/red) with a plain-English explanation.
+traffic-light (green/yellow/red) with a plain-English explanation.
 
 | Indicator                 | Healthy     | Warning            | Unhealthy    |
 | ------------------------- | ----------- | ------------------ | ------------ |
@@ -66,8 +65,8 @@ traffic light (green/yellow/red) with a plain-English explanation.
 ### Economic Health Score
 
 Each country receives an overall economic grade (A through F) based on six
-indicators scored against established benchmarks. Each indicator shows a traffic
-light (green/yellow/red) with a plain-English explanation.
+indicators scored against established benchmarks. Each indicator shows a
+traffic-light (green/yellow/red) with a plain-English explanation.
 
 | Indicator                  | Healthy       | Warning              | Unhealthy      |
 | -------------------------- | ------------- | -------------------- | -------------- |
@@ -92,22 +91,24 @@ light (green/yellow/red) with a plain-English explanation.
 - **Public Debt** — government debt as a percentage of GDP
 - **Current Account Balance** — trade surplus or deficit as a percentage of GDP
 
-## Data Source
+## Data Sources
 
-All data comes from the
-[UN World Population Prospects](https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=CSV%20format),
-stored in Supabase with two tables:
+Demographic data (population structure, fertility, life expectancy, mortality,
+and migration) comes from the
+[UN World Population Prospects](https://population.un.org/wpp/). Economic data
+(GDP, inflation, unemployment, debt, and trade) comes from the
+[World Bank Open Data](https://data.worldbank.org) catalogue. All data is stored
+in a Supabase database.
 
-- **Pop5YearGroup** — population by 5-year age group and sex (2026)
-- **DemographicIndicators** — time-series demographic metrics (all years)
-- **WBD** — World Bank economic indicators (GDP, inflation, unemployment, debt,
-  trade)
+> **Note on coverage:** a small number of territories appear in only one source
+> (e.g. Western Sahara has demographic data but no World Bank economic records).
+> Searches for these countries will show partial data.
 
 ## Tech Stack
 
 - **Next.js** (App Router) with React
 - **Supabase** for data storage
-- **Recharts** for visualizations
+- **Recharts** for visualisations
 - **shadcn/ui** for component primitives
 - **Tailwind CSS** for styling
 - **next-themes** for dark/light mode
@@ -115,7 +116,7 @@ stored in Supabase with two tables:
 ## Getting Started
 
 ```bash
-npm install
+bun install
 ```
 
 Create a `.env.local` with your Supabase credentials:
@@ -126,7 +127,7 @@ SUPABASE_KEY=your_key
 ```
 
 ```bash
-npm run dev
+bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and search for a country.
@@ -137,30 +138,3 @@ Open [http://localhost:3000](http://localhost:3000) and search for a country.
 - [Population Pyramids — Types Guide](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)
 - [OECD — Health at a Glance 2025](https://www.oecd.org/en/publications/health-at-a-glance-2025_8f9e3f98-en.html)
 - [World Bank — Development Indicators](https://data.worldbank.org/indicator)
-
-## Countries with Missing Data
-
-| country                          | found_in                   |
-| -------------------------------- | -------------------------- |
-| Channel Islands                  | WBD only                   |
-| Western Sahara                   | DemographicIndicators only |
-| Saint Pierre and Miquelon        | DemographicIndicators only |
-| Guadeloupe                       | DemographicIndicators only |
-| Guernsey                         | DemographicIndicators only |
-| Saint Barthélemy                 | DemographicIndicators only |
-| Saint Helena                     | DemographicIndicators only |
-| Wallis and Futuna Islands        | DemographicIndicators only |
-| Cook Islands                     | DemographicIndicators only |
-| China, Taiwan Province of China  | DemographicIndicators only |
-| Anguilla                         | DemographicIndicators only |
-| Jersey                           | DemographicIndicators only |
-| Falkland Islands (Malvinas)      | DemographicIndicators only |
-| Bonaire, Sint Eustatius and Saba | DemographicIndicators only |
-| Mayotte                          | DemographicIndicators only |
-| Holy See                         | DemographicIndicators only |
-| Martinique                       | DemographicIndicators only |
-| Tokelau                          | DemographicIndicators only |
-| Niue                             | DemographicIndicators only |
-| Réunion                          | DemographicIndicators only |
-| French Guiana                    | DemographicIndicators only |
-| Montserrat                       | DemographicIndicators only |
