@@ -66,8 +66,8 @@ export default function AboutPage() {
                 },
                 {
                   icon: Database,
-                  label: "World Bank Data",
-                  detail: "Sourced from the World Bank open data catalogue.",
+                  label: "Open Data",
+                  detail: "Demographic data from UN World Population Prospects; economic data from the World Bank.",
                   color: "text-chart-3",
                 },
               ].map(({ icon: Icon, label, detail, color }) => (
@@ -91,7 +91,16 @@ export default function AboutPage() {
               <span className="text-chart-1/50 select-none">// </span>Data Sources
             </h2>
             <p className="text-sm text-foreground/80 leading-relaxed">
-              Economic and demographic indicators are sourced from the{" "}
+              Demographic indicators (population structure, fertility, life expectancy, and more) are sourced from the{" "}
+              <a
+                href="https://population.un.org/wpp/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-chart-1 hover:underline"
+              >
+                UN World Population Prospects
+              </a>
+              . Economic indicators (GDP, inflation, unemployment, debt, and trade) are sourced from the{" "}
               <a
                 href="https://data.worldbank.org"
                 target="_blank"
@@ -100,7 +109,7 @@ export default function AboutPage() {
               >
                 World Bank Open Data
               </a>{" "}
-              catalogue and stored in a Supabase database. Data covers metrics including GDP, inflation, unemployment, population, life expectancy, and more.
+              catalogue. All data is stored in a Supabase database.
             </p>
           </section>
 

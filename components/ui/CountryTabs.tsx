@@ -26,10 +26,9 @@ export function CountryTabs() {
           const isActive = activeCountry === country;
           const isComparison = comparisonCountry === country;
           return (
-            <button
+            <div
               key={country}
-              onClick={() => setActiveCountry(country)}
-              className={`group relative flex items-center gap-2 px-3 py-2 font-mono text-xs tracking-wider uppercase rounded-lg cursor-pointer transition-all duration-200 whitespace-nowrap ${
+              className={`group relative flex items-center gap-2 px-3 py-2 font-mono text-xs tracking-wider uppercase rounded-lg transition-all duration-200 whitespace-nowrap ${
                 isActive
                   ? "bg-background shadow-sm border-b-2 border-chart-1 text-foreground"
                   : isComparison
@@ -37,52 +36,50 @@ export function CountryTabs() {
                     : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Globe className="h-3.5 w-3.5 shrink-0" />
-              {isActive && (
-                <span className="text-chart-1/40 select-none">//</span>
-              )}
-              {isComparison && (
-                <span className="text-chart-2/40 select-none">vs</span>
-              )}
-              {country}
+              {/* Tab activation button */}
+              <button
+                type="button"
+                onClick={() => setActiveCountry(country)}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <Globe className="h-3.5 w-3.5 shrink-0" />
+                {isActive && (
+                  <span className="text-chart-1/40 select-none">//</span>
+                )}
+                {isComparison && (
+                  <span className="text-chart-2/40 select-none">vs</span>
+                )}
+                {country}
+              </button>
 
               {/* VS pill — always visible on inactive, non-comparison tabs */}
               {!isActive && !isComparison && hasMultipleTabs && (
-                <span
-                  role="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setComparisonCountry(country);
-                  }}
+                <button
+                  type="button"
+                  onClick={() => setComparisonCountry(country)}
                   title={`Compare with ${country}`}
                   className="ml-0.5 px-1.5 py-0.5 rounded-full bg-chart-2/15 text-chart-2 font-mono text-[10px] font-semibold tracking-widest leading-none opacity-70 hover:opacity-100 hover:bg-chart-2/25 transition-all"
                 >
                   VS
-                </span>
+                </button>
               )}
 
               {/* Clear comparison button on comparison tab */}
               {isComparison && (
-                <span
-                  role="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    clearComparison();
-                  }}
+                <button
+                  type="button"
+                  onClick={clearComparison}
                   title="Clear comparison"
                   className="ml-0.5 p-0.5 rounded hover:bg-destructive/20 hover:text-destructive transition-colors opacity-60 hover:opacity-100"
                 >
                   <X className="h-3 w-3" />
-                </span>
+                </button>
               )}
 
               {/* Close tab button */}
-              <span
-                role="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeCountry(country);
-                }}
+              <button
+                type="button"
+                onClick={() => removeCountry(country)}
                 className={`ml-1 p-0.5 rounded hover:bg-destructive/20 hover:text-destructive transition-colors ${
                   isActive || isComparison
                     ? "opacity-60 hover:opacity-100"
@@ -90,8 +87,8 @@ export function CountryTabs() {
                 }`}
               >
                 <X className="h-3 w-3" />
-              </span>
-            </button>
+              </button>
+            </div>
           );
         })}
         </div>

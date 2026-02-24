@@ -15,6 +15,7 @@ interface LocationStore {
   setActiveCountry: (country: string) => void;
   setComparisonCountry: (country: string) => void;
   clearComparison: () => void;
+  reset: () => void;
 }
 
 const useLocationStore = create<LocationStore>((set, get) => ({
@@ -78,6 +79,10 @@ const useLocationStore = create<LocationStore>((set, get) => ({
   // Delegates to addCountry so Header needs no changes
   setSearchedLocation: (newLocation) => {
     get().addCountry(newLocation);
+  },
+
+  reset: () => {
+    set({ searchedLocation: "", openCountries: [], activeCountry: "", comparisonCountry: null });
   },
 }));
 

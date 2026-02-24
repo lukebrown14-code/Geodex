@@ -199,3 +199,19 @@
   border-bottom: 1.5px solid var(--chart-1); border-right: 1.5px solid var(--chart-1);
   border-bottom-right-radius: 2px;
 }
+
+.search-dropdown {
+  background-color: #ffffff;
+}
+.dark .search-dropdown {
+  background-color: #000000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-tab-enter,
+  .animate-reticle-pulse,
+  .animate-scanline {
+    animation: none;
+  }
+}

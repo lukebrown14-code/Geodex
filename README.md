@@ -164,7 +164,3 @@ Open [http://localhost:3000](http://localhost:3000) and search for a country.
 | Réunion                          | DemographicIndicators only |
 | French Guiana                    | DemographicIndicators only |
 | Montserrat                       | DemographicIndicators only |
-
-## Todo
-
-- Add more economic data sources

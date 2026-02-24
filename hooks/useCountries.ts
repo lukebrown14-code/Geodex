@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export function useCountries() {
   const [countries, setCountries] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/countries")
@@ -12,11 +13,13 @@ export function useCountries() {
       .then((json) => {
         if (!json.error) {
           setCountries(json);
+        } else {
+          setError("Failed to load countries");
         }
       })
-      .catch(() => {})
+      .catch(() => setError("Failed to load countries"))
       .finally(() => setLoading(false));
   }, []);
 
-  return { countries, loading };
+  return { countries, loading, error };
 }

@@ -9,6 +9,7 @@ import { SectionTabs } from "@/components/ui/SectionTabs";
 import { CountryTabs } from "@/components/ui/CountryTabs";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { SearchBar } from "@/components/ui/SearchBar";
 
 import useLocationStore from "@/lib/store";
 
@@ -42,7 +43,7 @@ export default function Home() {
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center gap-14">
             {/* Zone 1 — Hero header */}
-            <div className="flex flex-col items-center gap-5 animate-fade-in-up">
+            <div className="relative z-10 flex flex-col items-center gap-5 animate-fade-in-up">
               {/* Reticle graphic */}
               <div className="relative h-20 w-20 overflow-hidden">
                 <div className="animate-reticle-pulse absolute inset-0 rounded-full border-2 border-muted-foreground/20" />
@@ -67,6 +68,8 @@ export default function Home() {
               <p className="font-mono text-sm text-muted-foreground max-w-md">
                 Explore economic and demographic data for any country in the world.
               </p>
+
+              <SearchBar className="w-full max-w-sm sm:max-w-md" />
             </div>
 
             {/* Zone 2 — Feature cards */}
