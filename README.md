@@ -138,3 +138,12 @@ Open [http://localhost:3000](http://localhost:3000) and search for a country.
 - [Population Pyramids — Types Guide](https://www.populationpyramids.org/blog/population-pyramid-types-complete-guide)
 - [OECD — Health at a Glance 2025](https://www.oecd.org/en/publications/health-at-a-glance-2025_8f9e3f98-en.html)
 - [World Bank — Development Indicators](https://data.worldbank.org/indicator)
+
+## Road Map
+
+- Add score board of the best and worst countries demographic and economic
+  health
+- Add additional tab for data such as crime, freedom a countries has, the amount
+  and how cheaply a country makes power
+- The ability to export data in CSV format
+- Date range to change the years of data shown (1y, 5y, 10y and all)
